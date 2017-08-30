@@ -2,7 +2,6 @@ package org.schedule;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.schedule.entity.Schedule;
-import org.schedule.service.SchduleService;
+import org.schedule.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,14 +23,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ServiceTest {
 
     @Autowired
-    SchduleService scheduleService;
+    ScheduleService scheduleService;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Before
     public void setup() {
-        //create table Schedule(id int not null auto_increment , name varchar(20), jobNumber varchar(50), content varchar(1000), address varchar(100), time timestamp, relatedPeopleAndDep varchar(200), department varchar(50), primary key(id))
+        //create table Schedule(id int not null auto_increment , name varchar(20), jobNumber varchar(50), content varchar(1000), address varchar(100), time date, timeSolt varchar(10), relatedPeopleAndDep varchar(200), comment varchar(100), primary key(id));
         jdbcTemplate.update("delete from Schedule");
     }
 
@@ -43,12 +42,12 @@ public class ServiceTest {
         for (int i = 1; i <= 100; i++) {
             schedule = new Schedule();
             schedule.setName("test-" + i);
-            schedule.setJobNumber("00810086--" + i);
             schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(new Date().getTime()));
+            schedule.setTime(new Date());
+            schedule.setTimeSolt("上午");
             schedule.setRelatedPeopleAndDep("something related");
             schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
+            schedule.setComment("IT" + i);
 
             list.add(schedule);
         }
@@ -63,14 +62,14 @@ public class ServiceTest {
         List<Schedule> list = new ArrayList<Schedule>();
         Schedule schedule = null;
         for (int i = 1; i <= 20; i++) {
-            schedule = new Schedule();
-            schedule.setName("test-" + i);
-            schedule.setJobNumber("10086" + i);
-            schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(new Date().getTime()));
-            schedule.setRelatedPeopleAndDep("something related");
-            schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
+        	 schedule = new Schedule();
+             schedule.setName("test-" + i);
+             schedule.setContent("do something--" + i);
+             schedule.setTime(new Date());
+             schedule.setTimeSolt("pm");
+             schedule.setRelatedPeopleAndDep("something related");
+             schedule.setAddress("beijing");
+             schedule.setComment("IT" + i);
 
             list.add(schedule);
         }
@@ -81,98 +80,90 @@ public class ServiceTest {
     }
 
     @Test
-    public void testGetByJobNumber() {
-        List<Schedule> list = new ArrayList<Schedule>();
-        Schedule schedule = null;
-        for (int i = 1; i <= 20; i++) {
-            schedule = new Schedule();
-            schedule.setName("test-" + i);
-            schedule.setJobNumber("10086" + i);
-            schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(new Date().getTime()));
-            schedule.setRelatedPeopleAndDep("something related");
-            schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
-
-            list.add(schedule);
-        }
-
-        scheduleService.loadSchedule(list);
-
-        assertEquals("1008615", scheduleService.getScheduleByJobNumber("1008615").get(0).getJobNumber());
-    }
-
-    @Test
-    public void testGetByDep() {
-        List<Schedule> list = new ArrayList<Schedule>();
-        Schedule schedule = null;
-        for (int i = 1; i <= 20; i++) {
-            schedule = new Schedule();
-            schedule.setName("test-" + i);
-            schedule.setJobNumber("10086" + i);
-            schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(new Date().getTime()));
-            schedule.setRelatedPeopleAndDep("something related");
-            schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
-
-            list.add(schedule);
-        }
-
-        scheduleService.loadSchedule(list);
-
-        assertEquals("IT15", scheduleService.getScheduleByDepartment("IT15").get(0).getDepartment());
-    }
-
-    @Test
     public void testGetByContent() {
         List<Schedule> list = new ArrayList<Schedule>();
         Schedule schedule = null;
         for (int i = 1; i <= 20; i++) {
-            schedule = new Schedule();
-            schedule.setName("test-" + i);
-            schedule.setJobNumber("10086" + i);
-            schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(new Date().getTime()));
-            schedule.setRelatedPeopleAndDep("something related");
-            schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
+        	 schedule = new Schedule();
+             schedule.setName("test-" + i);
+             schedule.setContent("do something--" + i);
+             schedule.setTime(new Date());
+             schedule.setTimeSolt("上午");
+             schedule.setRelatedPeopleAndDep("something related");
+             schedule.setAddress("beijing");
+             schedule.setComment("IT" + i);
 
             list.add(schedule);
         }
 
         scheduleService.loadSchedule(list);
 
-        assertEquals("do something--15", scheduleService.getScheduleByContent("do something--15").get(0).getContent());
+        assertEquals("上午", scheduleService.getScheduleByContent("%some%").get(0).getTimeSolt());
     }
 
     @Test
     public void testTime() throws ParseException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<Schedule> list = new ArrayList<Schedule>();
         Schedule schedule = null;
+        Date date = null;
         for (int i = 1; i <= 20; i++) {
-            Date date = sdf.parse("2008-07-" + i + " 19:20:00");
+        	if(i>=10) {
+        		 date = sdf.parse("2008-07-" + i);
+        	}else {
+        		 date = sdf.parse("2008-07-0" + i);
+        	}
             schedule = new Schedule();
             schedule.setName("test-" + i);
-            schedule.setJobNumber("10086" + i);
             schedule.setContent("do something--" + i);
-            schedule.setTime(new Timestamp(date.getTime()));
+            schedule.setTime(date);
+            schedule.setTimeSolt("pm");
             schedule.setRelatedPeopleAndDep("something related");
             schedule.setAddress("beijing");
-            schedule.setDepartment("IT" + i);
+            schedule.setComment("IT" + i);
 
             list.add(schedule);
         }
         scheduleService.loadSchedule(list);
         
-        Date date = sdf.parse("2008-07-08 13:30:00");
-        Timestamp start = new Timestamp(date.getTime());
+        Date start = sdf.parse("2008-07-08");
         
-        date = sdf.parse("2008-07-16 13:30:00");
-        Timestamp end = new Timestamp(date.getTime());
-        assertEquals(8, scheduleService.getScheduleByTime(start, end).size());
+        Date end = sdf.parse("2008-07-16");
+        assertEquals(9, scheduleService.getScheduleByTime(start, end).size());
+    }
+    
+    @Test
+    public void testNameAndTime() throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<Schedule> list = new ArrayList<Schedule>();
+        Schedule schedule = null;
+        Date date = null;
+        for (int i = 1; i <= 20; i++) {
+        	if(i>=10) {
+        		 date = sdf.parse("2008-07-" + i);
+        	}else {
+        		 date = sdf.parse("2008-07-0" + i);
+        	}
+        	
+            schedule = new Schedule();
+            schedule.setName("test-" + i);
+            schedule.setContent("do something--" + i);
+            schedule.setTime(date);
+            schedule.setTimeSolt("pm");
+            schedule.setRelatedPeopleAndDep("something related");
+            schedule.setAddress("beijing");
+            schedule.setComment("IT" + i);
+
+            list.add(schedule);
+        }
+        scheduleService.loadSchedule(list);
+        
+        Date start = sdf.parse("2008-07-08");
+        
+        Date end = sdf.parse("2008-07-16");
+        assertEquals(9, scheduleService.getScheduleByNameAndTime("test-1", start, end).size());
     }
 
 }

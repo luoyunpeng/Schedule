@@ -1,15 +1,15 @@
 package org.schedule.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Schedule {
     private String name;
-    private String jobNumber;
     private String content;
     private String address;
-    private Timestamp time;
+    private Date time;
+    private String timeSolt;
     private String relatedPeopleAndDep;
-    private String department;
+    private String comment;
 
     public String getName() {
         return name;
@@ -17,14 +17,6 @@ public class Schedule {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getJobNumber() {
-        return jobNumber;
-    }
-
-    public void setJobNumber(String jobNumber) {
-        this.jobNumber = jobNumber;
     }
 
     public String getAddress() {
@@ -35,19 +27,35 @@ public class Schedule {
         this.address = address;
     }
 
-    public Timestamp getTime() {
-        return time;
-    }
-
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+
+	public String getTimeSolt() {
+		return timeSolt;
+	}
+
+	public void setTimeSolt(String timeSolt) {
+		this.timeSolt = timeSolt;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public void setContent(String content) {
         this.content = content;
     }
 
@@ -59,16 +67,8 @@ public class Schedule {
         this.relatedPeopleAndDep = relatedPeopleAndDep;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String toString() {
-        return name + jobNumber + content + time + relatedPeopleAndDep + department + address;
+        return name  + content + time + relatedPeopleAndDep + comment + address;
     }
 
 }
