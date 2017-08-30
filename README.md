@@ -1,2 +1,2 @@
 # Schedule
-temp repo for leader schedule  program
+Temp repo for leader schedule  program
