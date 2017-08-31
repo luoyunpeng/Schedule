@@ -31,7 +31,7 @@ public class RestSchedule {
     @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
     public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
         
-	    Date start = sdf.parse(startDate);
+        Date start = sdf.parse(startDate);
         Date end  = sdf.parse(endDate);
 	    return scheduleService.getScheduleByNameAndDate(name, start, end);
     }
