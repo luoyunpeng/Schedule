@@ -10,7 +10,35 @@ public class Schedule {
     private String address;
     private Date time;
     private String week;
+    private int dayId;
     private String timeSolt;
+    private int periodId;
+    private int level;
+    
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(int dayId) {
+        this.dayId = dayId;
+    }
+
+    public int getPeriodId() {
+        return periodId;
+    }
+
+    public void setPeriodId(int periodId) {
+        this.periodId = periodId;
+    }
+
     private String relatedPeopleAndDep;
     private String comment;
     
@@ -68,10 +96,19 @@ public class Schedule {
 
     public void setTime(Date time) {
         this.setWeek( WeekUtil.getWeek(time));
+        this.setDayId(WeekUtil.getWeekNumber(time));
         this.time = time;
     }
 
     public void setTimeSolt(String timeSolt) {
+        if(timeSolt.equals("上午")) {
+            this.setPeriodId(1);
+        }else if (timeSolt.equals("中午")) {
+            this.setPeriodId(2);
+        }else if(timeSolt.equals("下午")) {
+            this.setPeriodId(3);
+        }   
+        
         this.timeSolt = timeSolt;
     }
 
@@ -80,7 +117,7 @@ public class Schedule {
     }
 
     public String toString() {
-        return name  + content + time + relatedPeopleAndDep + comment + address;
+        return name;
     }
     
     public Schedule(){}
