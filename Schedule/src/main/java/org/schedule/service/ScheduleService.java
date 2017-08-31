@@ -18,10 +18,6 @@ public class ScheduleService {
 
         return scheduleDao.loadSchedule(list);
     }
-    
-    public int insertSchedule(Schedule schedule){
-    	return scheduleDao.insertSchedule(schedule);
-    }
 
     public List<Schedule> getScheduleByName(String name) {
 
