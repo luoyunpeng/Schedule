@@ -73,6 +73,7 @@ public class MVCControler {
         Sheet sheet = wb.getSheetAt(0);
         int totalRow = sheet.getLastRowNum();
         ExcelReadUtil excelReadUtil=new ExcelReadUtil();
+        List<Schedule> schedules=new ArrayList<>();
         for (int i = 2; i <= totalRow; i++) {
            Row row = sheet.getRow(i);
            String leader = excelReadUtil.getMergeOr(sheet, i, row.getCell(0), row);
@@ -84,9 +85,10 @@ public class MVCControler {
            String remarks = excelReadUtil.getMergeOr(sheet, i, row.getCell(6), row);
            Schedule schedule = new Schedule(leader, content, address, date, time, people, remarks);
            if (leader != null && leader != "" && date != null && time != null) {
-               schService.insertSchedule(schedule);
+               schedules.add(schedule);
            }
-		}
+        }
+        schService.loadSchedule(schedules);
         wb.close();
         file2.delete();
         return "redirect:index2.jsp";
