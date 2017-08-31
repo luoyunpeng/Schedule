@@ -33,7 +33,7 @@ public class RestSchedule {
         
         Date start = sdf.parse(startDate);
         Date end  = sdf.parse(endDate);
-	    return scheduleService.getScheduleByNameAndDate(name, start, end);
+        return scheduleService.getScheduleByNameAndDate(name, start, end);
     }
 	
     @RequestMapping(value = "/schedule/name/date/timesolt", method = RequestMethod.GET)
@@ -49,7 +49,7 @@ public class RestSchedule {
         
         Date start = sdf.parse(startDate);
         Date end  = sdf.parse(endDate);
-	    return scheduleService.getScheduleByDate(start, end);
+        return scheduleService.getScheduleByDate(start, end);
     }
     
     @RequestMapping(value = "/schedule/content", method = RequestMethod.GET)
