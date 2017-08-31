@@ -29,27 +29,21 @@ public class RestSchedule {
     }
 	
     @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
-    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
+    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
         
-        Date start = sdf.parse(startDate);
-        Date end  = sdf.parse(endDate);
-        return scheduleService.getScheduleByNameAndDate(name, start, end);
+        return scheduleService.getScheduleByNameAndDate(name, currentDate);
     }
 	
     @RequestMapping(value = "/schedule/name/date/timesolt", method = RequestMethod.GET)
-    public List<Schedule> getScheduleByNameAndDateWithTimeSolt(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "timeSolt", required = true) String timeSolt, @RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
+    public List<Schedule> getScheduleByNameAndDateWithTimeSolt(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "timeSolt", required = true) String timeSolt, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
         
-        Date start = sdf.parse(startDate);
-        Date end  = sdf.parse(endDate);
-        return scheduleService.getScheduleByNameAndDateWithTimeSolt(name, timeSolt, start, end);
+        return scheduleService.getScheduleByNameAndDateWithTimeSolt(name, timeSolt, currentDate);
     }
 	
     @RequestMapping(value = "/schedule/date", method = RequestMethod.GET)
-    public List<Schedule> getScheduleByDate(@RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
+    public List<Schedule> getScheduleByDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
         
-        Date start = sdf.parse(startDate);
-        Date end  = sdf.parse(endDate);
-        return scheduleService.getScheduleByDate(start, end);
+        return scheduleService.getScheduleByDate(currentDate);
     }
     
     @RequestMapping(value = "/schedule/content", method = RequestMethod.GET)

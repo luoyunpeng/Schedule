@@ -22,11 +22,11 @@ public class ScheduleDao {
     // batch load with list
     public int loadSchedule(List<Schedule> list) {
         //Schedule(name,content,address,time,timeSolt,relatedPeopleAndDep,comment)
-        String sql = "insert into Schedule(name,content,address,time,timeSolt,relatedPeopleAndDep,comment) values (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into Schedule(name,content,address,time,timeSolt,relatedPeopleAndDep,comment,level) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
         List<Object[]> batchArgs = new ArrayList<Object[]>();
         for (Schedule schedule : list) {
-            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getTimeSolt(), schedule.getRelatedPeopleAndDep(), schedule.getComment() });
+            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getTimeSolt(), schedule.getRelatedPeopleAndDep(), schedule.getComment(), schedule.getLevel() });
         }
         
         int[] rs = jdbcTemplate.batchUpdate(sql, batchArgs);
@@ -37,7 +37,6 @@ public class ScheduleDao {
         
         return totalInsert;
     }
-    
 
     //select with name
     public List<Schedule> getScheduleByName(String name) {
@@ -46,21 +45,21 @@ public class ScheduleDao {
     }
     
     //select with name and date
-    public List<Schedule> getScheduleByNameAndDate(String name, Date startDate, Date endDate) {
+    public List<Schedule> getScheduleByNameAndDate(String name, String startDate, String endDate) {
 
         return jdbcTemplate.query("select * from Schedule where name = ? and time >= ? and  time <= ?", rowMapper,  new Object[] { name, startDate, endDate});
     }
     
     //select with name, date and timesolt
-    public List<Schedule> getScheduleByNameAndDateWithTimeSolt(String name, String timeSolt, Date startDate, Date endDate) {
+    public List<Schedule> getScheduleByNameAndDateWithTimeSolt(String name, String timeSolt, String startDate, String endDate) {
 
         return jdbcTemplate.query("select * from Schedule where name = ? and time >= ? and  time <= ? and timeSolt = ?", rowMapper,  new Object[] { name, startDate, endDate, timeSolt});
     }
     
     //select with date
-    public List<Schedule> getScheduleByDate(Date startDate, Date endDate) {
+    public List<Schedule> getScheduleByDate(String startDate, String endDate) {
 
-        return jdbcTemplate.query("select * from Schedule where time >= ? and  time <= ?", rowMapper,  new Object[] {startDate, endDate});
+        return jdbcTemplate.query("select * from Schedule where time >= ? and  time <= ? order by level", rowMapper,  new Object[] {startDate, endDate});
     }
 
     //select with content
