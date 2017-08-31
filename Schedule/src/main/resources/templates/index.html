@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+
+		<link href="js/zui1.7.0/css/zui.min.css" rel="stylesheet"/>
+		<link href="js/zui1.7.0/css/zui-theme.css" />
+		<link href="js/zui1.7.0/lib/calendar/zui.calendar.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/style.css" />
+
+		<script type="text/javascript" src="js/jquery/jquery-3.2.0.min.js"></script>
+		<script src="js/zui1.7.0/js/zui.min.js"></script>
+		<script src="js/zui1.7.0/lib/calendar/zui.calendar.min.js"></script>
+		<script src="js/myjs.js"></script>
+		<script src="js/GetCNDate.js"></script>
+
+	</head>
+
+	<body>
+		<div class="">
+			<!--最顶部-->
+			<div class="top-my ">
+
+				<div class="topdiv text-center content " style="position: relative;top: 8px;" id="nowtime"> </div>
+
+				<button class="topdiv btn btn-primary" onclick="downTemplate()">模板下载</button>
+
+				<button class=" topdiv btn btn-default " data-toggle="modal" data-target="#inputModal">日程导入</button>
+
+				<button class=" btn btn-warning" onclick="outFile()">日程导出</button>
+				<div class="modal fade" id="inputModal">
+					<div class="modal-dialog">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+							<h4 class="modal-title">选择要上传的文件</h4>
+						</div>
+						<div class="modal-body">
+							<input type="file" id="filename" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" onclick="inputFile()">上传</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!--内容显示-->
+			<div id="" class="row-fluid">
+				<!--树形菜单-->
+				<div class="col-md-3 ">
+
+					<!--<nav class="menu" data-ride="menu" style="width: 200px">
+						<ul class="tree tree-menu" id="myTree"></ul>
+					</nav>-->
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading text-center">党工委管委会</div>
+
+						<!-- Table -->
+						<ul class="list-group">
+							<li class="list-group-item">Cras justo odio</li>
+							<li class="list-group-item">Dapibus ac facilisis in</li>
+							<li class="list-group-item">Morbi leo risus</li>
+							<li class="list-group-item">Porta ac consectetur ac</li>
+							<li class="list-group-item">Vestibulum at eros</li>
+						</ul>
+						<table class="table">
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('秦如培')">秦如培</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('马长青')">马长青</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('孙登峰')">孙登峰</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('宗文')">宗&nbsp;&nbsp;&nbsp;文</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('曾瑜')">曾&nbsp;&nbsp;&nbsp;瑜</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('欧阳武')">欧阳武</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('黄家耀')">黄家耀</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('许剑龙')">许剑龙</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('李建峰')">李建峰</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('耿贵刚')">耿贵刚</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('樊晓江')">樊晓江</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('朱克乾')">朱克乾</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('金和平')">金和平</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('邓波')">邓&nbsp;&nbsp;&nbsp;波</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('王春雷')">王春雷</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('苏永泓')">苏永泓</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('余尚贵')">余尚贵</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('高永昌')">高永昌</a>
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									<a href="#" onclick="clicleader('兰芸')">兰&nbsp;&nbsp;&nbsp;芸</a>
+								</td>
+
+								<td>
+									<a href="#" onclick="clicleader('陈东')">陈&nbsp;&nbsp;&nbsp;东</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('刘安军')">刘安军</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#" onclick="clicleader('翁敬')">翁&nbsp;&nbsp;&nbsp;敬</a>
+								</td>
+								<td>
+									<a href="#" onclick="clicleader('骆伟')">骆&nbsp;&nbsp;&nbsp;伟</a>
+								</td>
+
+							</tr>
+						</table>
+					</div>
+				</div>
+				<!--内容显示-->
+				<div class="col-md-9 " style="">
+					<div class="panel panel-default">
+						<div class="panel-heading container">
+							<div class="pull-left" style="margin:5px 0"><span id="leaderName">_____工作日程</span></div>
+							<div class="pull-left" style="margin:5px 58px;"><span id="gettime">2017年8月28日~2017年9月3日</span></div>
+							<div class="btn-group pull-right" role="group" aria-label="...">
+								<button type="button" class="btn btn-primary">
+                                    <i class="icon icon-chevron-left"></i>
+                                    <span>上一周日程</span>
+                                </button>
+								<button type="button" class="btn btn-primary">
+                                    <span>本周日程</span>
+                                </button>
+								<button type="button" class="btn btn-primary">
+                                    <span>下一周日程</span>
+                                    <i class="icon icon-chevron-right"></i>
+                                </button>
+							</div>
+						</div>
+						<div class="panel-body">
+							<table class="table table-bordered agenda_table" border="0" align="center">
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>周一</th>
+										<th>周二</th>
+										<th>周三</th>
+										<th>周四</th>
+										<th>周五</th>
+										<th>周六</th>
+										<th>周日</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="agenda_row" height="100px">
+										<th scope="row" class="agenda_row_head">上午</th>
+										<td id="MondayMorning" onclick="showAgentda(1)"></td>
+										<!---->
+										<td id="TuesdayMorning" onclick="showAgentda(4)"></td>
+										<td id="WednesdayMorning" onclick="showAgentda(7)"></td>
+										<td id="ThursdayMorning" onclick="showAgentda(10)"></td>
+										<td id="FridayMorning" onclick="showAgentda(13)"></td>
+										<td id="SaturdayMorning" onclick="showAgentda(16)"></td>
+										<td id="SundayMorning" onclick="showAgentda(19)"></td>
+									</tr>
+									<tr class="agenda_row" height="100px" style="vertical-align:middle">
+										<th scope="row">下午</th>
+										<td id="MondayAfternoon" onclick="showAgentda(2)"></td>
+										<td id="TuesdayAfternoon" onclick="showAgentda(5)"></td>
+										<td id="WednesdayAfternoon" onclick="showAgentda(8)"></td>
+										<td id="ThursdayAfternoon" onclick="showAgentda(11)"></td>
+										<td id="FridayAfternoon" onclick="showAgentda(14)"></td>
+										<td id="SaturdayAfternoon" onclick="showAgentda(17)"></td>
+										<td id="SundayAfternoon" onclick="showAgentda(20)"></td>
+									</tr>
+									<tr class="agenda_row" height="100px">
+										<th scope="row">晚上</th>
+										<td id="MondayNight" onclick="showAgentda(3)"></td>
+										<td id="TuesdayNight" onclick="showAgentda(6)"></td>
+										<td id="WednesdayNight" onclick="showAgentda(9)"></td>
+										<td id="ThursdayNight" onclick="showAgentda(12)"></td>
+										<td id="FridayNight" onclick="showAgentda(15)"></td>
+										<td id="SaturdayNight" onclick="showAgentda(18)"></td>
+										<td id="SundayNight" onclick="showAgentda(21)"></td>
+									</tr>
+								</tbody>
+							</table>
+							<div id="agendaShowModel" class="modal fade bs-example-modal-lg" tabindex="1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="panel panel-default">
+											<!-- Default panel contents -->
+											<div id="modelshowtime" class="panel-heading">2017-8-23 上午日程信息：</div>
+											<table class="table table-hover" id="modeltable">
+												<thead>
+													<tr>
+														<th>姓名</th>
+														<th>工号</th>
+														<th>日程</th>
+														<th>地点</th>
+														<th>参与部门与人员</th>
+														<th>备注</th>
+													</tr>
+												</thead>
+												<tbody id="rcContent">
+													<tr>
+														<td>秦如培</td>
+														<td>GA5647</td>
+														<td>开会</td>
+														<td>贵安新区</td>
+														<td>某某部门及其部门一下人员</td>
+														<td>会议持续两天</td>
+													</tr>
+												</tbody>
+
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="myModal">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+										<h4 class="modal-title" id="title"></h4>
+									</div>
+									<div class="modal-body">
+
+										<div id="bodytext"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>
