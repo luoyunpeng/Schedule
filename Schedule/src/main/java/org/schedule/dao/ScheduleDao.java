@@ -37,6 +37,14 @@ public class ScheduleDao {
         
         return totalInsert;
     }
+    
+    //insert one
+    public int insertSchedule(Schedule schedule){
+    	String sql = "insert into Schedule(name,content,address,time,timeSolt,relatedPeopleAndDep,comment) values (?, ?, ?, ?, ?, ?, ?)";
+    	
+    	return jdbcTemplate.update(sql, schedule.getName(),schedule.getContent(),schedule.getAddress(),
+    			schedule.getTime(),schedule.getTimeSolt(),schedule.getRelatedPeopleAndDep(),schedule.getComment());
+    }
 
     //select with name
     public List<Schedule> getScheduleByName(String name) {
