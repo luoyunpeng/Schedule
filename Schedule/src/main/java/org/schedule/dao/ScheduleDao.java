@@ -37,6 +37,7 @@ public class ScheduleDao {
         
         return totalInsert;
     }
+    
 
     //select with name
     public List<Schedule> getScheduleByName(String name) {

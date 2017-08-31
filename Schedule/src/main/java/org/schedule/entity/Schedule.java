@@ -82,4 +82,18 @@ public class Schedule {
     public String toString() {
         return name  + content + time + relatedPeopleAndDep + comment + address;
     }
+    
+    public Schedule(){}
+
+    public Schedule(String name, String content, String address, Date time, String timeSolt, String relatedPeopleAndDep,
+                     String comment) {
+             super();
+             this.name = name;
+             this.content = content;
+             this.address = address;
+             this.time = time;
+             this.timeSolt = timeSolt;
+             this.relatedPeopleAndDep = relatedPeopleAndDep;
+             this.comment = comment;
+    }
 }
