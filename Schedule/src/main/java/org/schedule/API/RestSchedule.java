@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 public class RestSchedule {
 	
-	@Autowired
-	ScheduleService scheduleService;
+    @Autowired
+    ScheduleService scheduleService;
 	
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
-	public List<Schedule> getScheduleByName(@RequestParam(value = "name", required = true) String name) {
-		return scheduleService.getScheduleByName(name);
-	}
+    @RequestMapping(value = "/schedule", method = RequestMethod.GET)
+    public List<Schedule> getScheduleByName(@RequestParam(value = "name", required = true) String name) {
+        return scheduleService.getScheduleByName(name);
+    }
 	
-	@RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
-	public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
-		
+    @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
+    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
+        
 	    Date start = sdf.parse(startDate);
         Date end  = sdf.parse(endDate);
 	    return scheduleService.getScheduleByNameAndDate(name, start, end);
-	}
+    }
 	
-	@RequestMapping(value = "/schedule/name/date/timesolt", method = RequestMethod.GET)
+    @RequestMapping(value = "/schedule/name/date/timesolt", method = RequestMethod.GET)
     public List<Schedule> getScheduleByNameAndDateWithTimeSolt(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "timeSolt", required = true) String timeSolt, @RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
         
         Date start = sdf.parse(startDate);
@@ -44,7 +44,7 @@ public class RestSchedule {
         return scheduleService.getScheduleByNameAndDateWithTimeSolt(name, timeSolt, start, end);
     }
 	
-	@RequestMapping(value = "/schedule/date", method = RequestMethod.GET)
+    @RequestMapping(value = "/schedule/date", method = RequestMethod.GET)
     public List<Schedule> getScheduleByDate(@RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
         
 	    Date start = sdf.parse(startDate);
@@ -80,10 +80,9 @@ public class RestSchedule {
     
     @RequestMapping(value = "/schedule/timesolt/date", method = RequestMethod.GET)
     public List<Schedule> getScheduleByTimeSoltAndDate(@RequestParam(value = "timeSolt", required = true) String timeSolt,@RequestParam(value = "startDate", required = true) String startDate,@RequestParam(value = "endDate", required = true) String endDate) throws ParseException {
-        
+
         Date start = sdf.parse(startDate);
         Date end  = sdf.parse(endDate);
         return scheduleService.getScheduleByTimeSoltAndDate(timeSolt, start, end);
     }
-	
 }

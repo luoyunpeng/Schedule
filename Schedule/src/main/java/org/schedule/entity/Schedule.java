@@ -17,9 +17,10 @@ public class Schedule {
     public String getAddress() {
         return address;
     }
+    
     public String getComment() {
-		return comment;
-	}
+        return comment;
+    }
 
     public String getContent() {
         return content;
@@ -34,45 +35,45 @@ public class Schedule {
     }
 
     public Date getTime() {
-		return time;
-	}
+        return time;
+    }
 
     public String getTimeSolt() {
-		return timeSolt;
-	}
+        return timeSolt;
+    }
 
     public String getWeek() {
         return week;
     }
 
-	public void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public void setContent(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
-	public void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-	public void setRelatedPeopleAndDep(String relatedPeopleAndDep) {
+    public void setRelatedPeopleAndDep(String relatedPeopleAndDep) {
         this.relatedPeopleAndDep = relatedPeopleAndDep;
     }
 
-	public void setTime(Date time) {
+    public void setTime(Date time) {
 	    this.setWeek( WeekUtil.getWeek(time));
-		this.time = time;
-	}
+	    this.time = time;
+    }
 
     public void setTimeSolt(String timeSolt) {
-		this.timeSolt = timeSolt;
-	}
+        this.timeSolt = timeSolt;
+    }
 
     public void setWeek(String week) {
         this.week = week;
@@ -81,5 +82,4 @@ public class Schedule {
     public String toString() {
         return name  + content + time + relatedPeopleAndDep + comment + address;
     }
-
 }

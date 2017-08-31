@@ -53,7 +53,7 @@ public class ServiceTest {
         }
 
        // assertEquals(100 + "", jdbcTemplate.queryForObject("select count(*) from Schedule", Integer.class) + "");
-        assertEquals(100 + "",  scheduleService.loadSchedule(list)+ "");
+       assertEquals(100 + "",  scheduleService.loadSchedule(list)+ "");
     }
 
     @Test
@@ -132,5 +132,4 @@ public class ServiceTest {
         Date end = sdf.parse("2008-07-16");
         assertEquals(0, scheduleService.getScheduleByNameAndDate("test-1", start, end).size());
     }
-
 }
