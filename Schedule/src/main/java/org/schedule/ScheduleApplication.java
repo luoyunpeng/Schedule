@@ -9,13 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ScheduleApplication {
     
     public static void main(String[] args) {
-	    SpringApplication.run(ScheduleApplication.class, args);
+        SpringApplication.run(ScheduleApplication.class, args);
     }
 
     // this will configure tomcat jdbc in java code
     // @Bean
     public DataSource dataSource() {
-	    PoolProperties poolProperties = new PoolProperties();
+        PoolProperties poolProperties = new PoolProperties();
         poolProperties.setUrl("jdbc:mysql://192.168.1.76:32768/jdbc?characterEncoding=utf8");
         poolProperties.setUsername("root");
         poolProperties.setPassword("123");

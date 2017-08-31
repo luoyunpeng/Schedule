@@ -67,8 +67,8 @@ public class Schedule {
     }
 
     public void setTime(Date time) {
-	    this.setWeek( WeekUtil.getWeek(time));
-	    this.time = time;
+        this.setWeek( WeekUtil.getWeek(time));
+        this.time = time;
     }
 
     public void setTimeSolt(String timeSolt) {
