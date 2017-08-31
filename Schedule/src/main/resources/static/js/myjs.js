@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$("tr,td,th").addClass("text-center");
+	$("li").addClass("text-center");
 
 	//把后台获取到的数据赋给定义好的数组变量
 	for(var i = 0, l = leaderData.length; i < l; i++) {
@@ -83,16 +83,18 @@ $(document).ready(function() {
 				SundayNight.push(leaderData[i]);
 			}
 		}
-		/*for(var key in leaderData[i]){
-//		alert(key+':'+leaderData[i][key]);
-		if(leaderData[i][key]=='星期一'){
-			alert(leaderData[i])
-		}
-	}*/
+		
 	}
 
 });
 
+var time_start;
+var time_end;
+var leader_name;
+
+function outFile(){
+	
+}
 //后台获取到的数据
 var leaderData = [{
 		name: '秦如培',
@@ -315,27 +317,6 @@ function clicleader(name) {
 }
 //点击左边树形菜单
 
-//下载模板
-function downTemplate() {
-	$.ajax({
-		type: "get",
-		url: "",
-		async: true,
-		data: {},
-		dataType: "",
-		success: function(data) {
-			if(data.result == 'success') {
-
-			} else {
-				alert("11111")
-			}
-		},
-		error: function(data) {
-			alert("失败");
-		}
-	});
-}
-
 //导入文件
 function inputFile() {
 	var file = $("#filename").val();
@@ -350,7 +331,19 @@ function inputFile() {
 		} else {
 			var ext = file.substring(index + 1, file.length);
 			if(ext == "xls" || ext == "xlsx") {
-				alert("上传成功");
+				$.ajax({
+					type: "post",
+					url: "",
+					async: true,
+					data: {file:file},
+					dataType: "",
+					success: function(data) {
+						alter("上传成功");
+					},
+					error: function(data) {
+						alert("上传失败");
+					}
+				});
 				$("#filename").text("")
 
 			} else {
@@ -359,21 +352,4 @@ function inputFile() {
 		}
 	}
 
-	/*$.ajax({
-		type: "get",
-		url: "",
-		async: true,
-		data: {},
-		dataType: "",
-		success: function(data) {
-			if(data.result == 'success') {
-
-			} else {
-				alert("11111")
-			}
-		},
-		error: function(data) {
-			alert("失败");
-		}
-	});*/
 }
