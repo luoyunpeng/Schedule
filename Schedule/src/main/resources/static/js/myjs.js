@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$("tr,td,th").addClass("text-center");
+	$("li").addClass("text-center");
 
 	//把后台获取到的数据赋给定义好的数组变量
 	for(var i = 0, l = leaderData.length; i < l; i++) {
