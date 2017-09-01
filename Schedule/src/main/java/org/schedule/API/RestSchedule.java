@@ -64,7 +64,6 @@ public class RestSchedule {
     
     @RequestMapping(value = "/dateall/last", method = RequestMethod.GET)
     public Week getLastWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
-       System.out.println(currentDate);
         Date current = WeekUtil.parse(currentDate);
         int dayNumber = WeekUtil.getWeekNumber(current);
         Date lastCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfLastWeek(current, dayNumber));
