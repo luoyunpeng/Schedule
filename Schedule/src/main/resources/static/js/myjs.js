@@ -366,8 +366,8 @@ function showAgendaDownloadModal() {
     $("#agendaDownlaodModal").modal('show');
 }
 
-function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中  
-
+function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中 
+    $("#agendaInfo").html("下载中...");
     $("#" + tableid).table2excel({
         exclude: ".noExl",
         name: "Excel Document Name",
@@ -378,4 +378,5 @@ function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中
         exclude_links: true,
         exclude_inputs: true
     });
+    $("#agendaDownlaodModal").modal('hide');
 }
