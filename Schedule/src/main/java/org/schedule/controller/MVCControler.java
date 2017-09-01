@@ -44,9 +44,14 @@ public class MVCControler {
 	
     @Autowired
     private ScheduleService schService;
+    
+    @RequestMapping("/")
+    public String projectIndex(){
+    	return "index";
+    }
 
     @RequestMapping("/upload")
-    public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+    public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws IOException {
         InputStream inputStream = file.getInputStream();
         File file2 = new File(this.getClass().getResource("/").getPath()+"static/rctemp.xls");
         if(!file2.exists()){
@@ -93,7 +98,12 @@ public class MVCControler {
         schService.loadSchedule(schedules);
         wb.close();
         file2.delete();
-        return "redirect:index2.jsp";
+        
+        response.setContentType("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print("<script>alert('上传成功');window.location.href='index'</script>");
+        
+        return "index";
     }
 
     @RequestMapping("/download")
