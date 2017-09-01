@@ -1,27 +1,36 @@
 package org.schedule.entity;
 
 public class Week {
-    private String startDate;
-    private String endDate;
+    private String[] startDate;
+    private String[] listWeek;
+    private String[] period= {"上午", "下午"};
     
-    public Week(String startDate, String endDate) {
+    public Week(String[] startDate, String[] listWeek) {
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.listWeek = listWeek;
     }
     
-    public String getStartDate() {
+    public String[] getStartDate() {
         return startDate;
     }
     
-    public void setStartDate(String startDate) {
+    public void setStartDate(String[] startDate) {
         this.startDate = startDate;
     }
     
-    public String getEndDate() {
-        return endDate;
+    public String[] getListWeek() {
+        return listWeek;
     }
     
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setListWeek(String[] listWeek) {
+        this.listWeek = listWeek;
+    }
+    
+    public String[] getPeriod() {
+        return period;
+    }
+    
+    public void setPeriod(String[] period) {
+        this.period = period;
     }
 }
