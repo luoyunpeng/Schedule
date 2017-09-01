@@ -121,10 +121,10 @@ public class Schedule {
     }
 
     public void setTime(Date time) {
-		if(time != null){
-			this.setWeek( WeekUtil.getWeek(time));
-			this.setDayId(WeekUtil.getWeekNumber(time));
-		}
+        if(time != null){
+    	    this.setWeek( WeekUtil.getWeek(time));
+            this.setDayId(WeekUtil.getWeekNumber(time));
+        }
         this.time = time;
     }
 
