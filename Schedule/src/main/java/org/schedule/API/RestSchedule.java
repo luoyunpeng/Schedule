@@ -70,7 +70,7 @@ public class RestSchedule {
         Date lastCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfLastWeek(current, dayNumber));
         dayNumber = WeekUtil.getWeekNumber(lastCurrent);
         String[] array = {WeekUtil.getFirstDayOfCurrentWeek(lastCurrent, dayNumber), WeekUtil.getLastDayOfCurrentWeek(lastCurrent, dayNumber)};
-        return  new Week(array, WeekUtil.getAllWeekString(current, dayNumber));
+        return  new Week(array, WeekUtil.getAllWeekString(lastCurrent, dayNumber));
     }
     
     @RequestMapping(value = "/dateall/next", method = RequestMethod.GET)
