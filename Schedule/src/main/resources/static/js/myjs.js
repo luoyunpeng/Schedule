@@ -85,7 +85,6 @@ $(document).ready(function() {
 		}
 		
 	}
-
 });
 
 var time_start;
@@ -352,4 +351,31 @@ function inputFile() {
 		}
 	}
 
+}
+
+var leader = "所有领导";
+var startDate = "2017-8-28";
+var endDate = "2017-9-3";
+var weekName = "周一至周日";
+var savingAgendaExcelName = "";
+function showAgendaDownloadModal() {
+    savingAgendaExcelName = "";
+    $("#agendaInfo").html("<p>无</p>");
+    savingAgendaExcelName = leader + "_" + startDate + "至" + endDate + "(周一至周日)的日程内容.xls";
+    $("#agendaInfo").html("<p><i class=\"icon icon-file-excel\"></i>" + savingAgendaExcelName + "</p>");
+    $("#agendaDownlaodModal").modal('show');
+}
+
+function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中  
+
+    $("#" + tableid).table2excel({
+        exclude: ".noExl",
+        name: "Excel Document Name",
+        //filename: "myFileName" + new Date().toISOString().replace(/[\-\:\.]/g, ""),
+        filename: savingAgendaExcelName,
+        fileext: ".xls",
+        exclude_img: true,
+        exclude_links: true,
+        exclude_inputs: true
+    });
 }
