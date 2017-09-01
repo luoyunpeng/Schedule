@@ -12,6 +12,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.sym.Name;
+
+import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
+
 @Repository
 public class ScheduleDao {
 
@@ -52,10 +56,17 @@ public class ScheduleDao {
         return jdbcTemplate.query("select * from level order by level", rowMapperLevel);
     }
     
+    public List<Level> getLeader(String name) {
+
+        return jdbcTemplate.query("select * from level where leaderName = ?", rowMapperLevel,name);
+    }
+    
     //select with name and date
     public List<Schedule> getScheduleByNameAndDate(String name, String startDate, String endDate) {
-
-        return jdbcTemplate.query("select * from Schedule where name = ? and time >= ? and  time <= ? order by time, periodId", rowMapper,  new Object[] { name, startDate, endDate});
+    								//select * from Schedule s right join level l on s.name=l.leaderName and time >= ? and  time <= ? order by time, periodId
+        //System.out.println("select * from Schedule s right join level l on s.name=l.leaderName and s.name="+name+" and time >= "+startDate+" and  time <= "+endDate+" order by time, periodId", rowMapper,  new Object[] { name, startDate, endDate});
+    	//return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName and time >= ? and  time <= ? where s.name =? order by time, periodId", rowMapper,  new Object[] { startDate, endDate, name});
+    	return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName  where time >= ? and  time <= ? and s.name =? order by time, periodId", rowMapper,  new Object[] { startDate, endDate, name});
     }
     
     //select with name, date and timesolt

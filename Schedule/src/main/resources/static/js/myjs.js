@@ -7,6 +7,7 @@ $(document).ready(function() {
 	showMen();
 	showTable();
 	showAgenda();
+	getWeekTime();
 	$("li,th,td").addClass("text-center");
 	
 	$("#afterweek").on("click",function(){
@@ -97,7 +98,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#gettime").html(time_start+" ~ "+time_end);
+	
 });
 
 function showMen(){
@@ -115,7 +116,6 @@ function showMen(){
 			};
 				ul+="<li class='list-group-item text-center'><a href='#' onclick='clicleader(\"所有领导\")'>所有领导</a></li></ul>";
 				$("#showMen").html(ul);
-			//console.log(leadersArray);
 		},
 		error : function(data) {
 			alert("失败");
@@ -123,175 +123,372 @@ function showMen(){
 	}); 
 }
 
-var listArray =[
-	{startTime:["2017-08-28","2017-09-02"],
-		week:["2017-08-28<br/>星期一","2017-08-29<br/>星期二","2017-08-30<br/>星期三","2017-08-31<br/>星期四",
-		"2017-09-01<br/>星期五","2017-09-02<br/>星期六","2017-09-03<br/>星期日"],
-		leader:["秦如培","马长青","孙登峰","宗文","曾瑜"],
-		period:["上午","下午","晚上"]}
-]
+
 var leaderList;
-var time_start = listArray[0].startTime[0];
-var time_end = listArray[0].startTime[1];
+var time_start;
+var time_end ;
 var leader_name;
-var leadersArray = new Array();
 
 
+function getWeekTime(){
+	
+}
 
 function outFile() {
 
 }
 // 后台获取到的数据
-var leaderData = [ {
-	nameId : '2',
-	name : '李四',
-	datatitle : '外访',
-	time: '2017-08-28',
-	week : '星期四',
-	dayId : '4',
-	timenow : '下午',
-	periodId : '2',
-	place : "金阳高新区",
-	joinpersonnel : "赵四，王麻子",
-	remarks : '随时电话联系'
-}, {
-	nameId : '2',
-	name : '李四',
-	datatitle : '开会',
-	time: '2017-08-28',
-	week : '星期四',
-	dayId : '4',
-	timenow : '下午',
-	periodId : '2',
-	place : "金阳高新区",
-	joinpersonnel : "赵四，王麻子",
-	remarks : '随时电话联系'
-}, {
-	nameId : '1',
-	name : '张三',
-	datatitle : '开会',
-	time: '2017-08-28',
-	week : '星期一',
-	dayId : '1',
-	timenow : '晚上午',
-	periodId : '2',
-	place : "金阳高新区",
-	joinpersonnel : "赵四，王麻子",
-	remarks : '随时电话联系'
-}, {
-	nameId : '4',
-	name : '小辉',
-	datatitle : '开会',
-	time: '2017-08-28',
-	week : '星期四',
-	dayId : '4',
-	timenow : '上午',
-	periodId : '1',
-	place : "金阳高新区",
-	joinpersonnel : "赵四，王麻子",
-	remarks : '随时电话联系'
-}, {
-	nameId : '5',
-	name : '云鹏',
-	datatitle : '开会',
-	time: '2017-08-28',
-	week : '星期一',
-	dayId : '1',
-	timenow : '晚上',
-	periodId : '3',
-	place : "金阳高新区",
-	joinpersonnel : "赵四，王麻子",
-	remarks : '随时电话联系'
-} ]
 
-//给表哥填充数据
-function showAgenda() {
+//给表填充数据
+function showAgenda(name,time) {
 	
-	var td_ID = "";
-	for (var i = 0; i < leaderData.length; i++) {
-		var agenda = leaderData[i];
-		if (td_ID == "td_" + agenda.dayId + "_" + agenda.nameId + "_"
-				+ agenda.periodId + "_") {
-			td_ID = "td_" + agenda.dayId + "_" + agenda.nameId + "_"
-					+ agenda.periodId + "_";
-			$("#" + td_ID + "1").append("<br/>" + agenda.datatitle);
-			$("#" + td_ID + "2").append("<br/>" + agenda.place);
-			$("#" + td_ID + "3").append("<br/>" + agenda.joinpersonnel);
-			$("#" + td_ID + "4").append("<br/>" + agenda.remarks);
-		} else {
-			td_ID = "td_" + agenda.dayId + "_" + agenda.nameId + "_"
-					+ agenda.periodId + "_";
-			week_ID="week_"+agenda.dayId;
-			$("#" + td_ID + "1").html(agenda.datatitle);
-			$("#" + td_ID + "2").html(agenda.place);
-			$("#" + td_ID + "3").html(agenda.joinpersonnel);
-			$("#" + td_ID + "4").html(agenda.remarks);
-			/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
-		}
+	if(name==null && time==null){
+		var leaderData = new Array();
+		$.ajax({
+			type : "get",
+			url : "/schedule/name/date",
+			async : true,
+			dataType : "json",
+			success : function(data) {
+				leaderData=data;
+				var td_ID = "";
+				for (var i = 0; i < leaderData.length; i++) {
+					var agenda = leaderData[i];
+					
+					if (td_ID == "td_" + agenda.dayId + "_" + agenda.level + "_"
+							+ agenda.periodId + "_") {
+						td_ID = "td_" + agenda.dayId + "_" + agenda.level + "_"
+								+ agenda.periodId + "_";
+						$("#" + td_ID + "1").append("<br/>" + agenda.content);
+						$("#" + td_ID + "2").append("<br/>" + agenda.address);
+						$("#" + td_ID + "3").append("<br/>" + agenda.relatedPeopleAndDep);
+						$("#" + td_ID + "4").append("<br/>" + agenda.comment);
+					} else {
+						td_ID = "td_" + agenda.dayId + "_" + agenda.level + "_"
+								+ agenda.periodId + "_";
+						$("#" + td_ID + "1").html(agenda.content);
+						$("#" + td_ID + "2").html(agenda.address);
+						$("#" + td_ID + "3").html(agenda.relatedPeopleAndDep);
+						$("#" + td_ID + "4").html(agenda.comment);
+						/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
+					}
+				}
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+	}else{
+		var leaderData = new Array();
+		$.ajax({
+			type : "get",
+			url : "/schedule/name/date",
+			async : true,
+			data : {
+				name:leader_name,
+				currentDate : time_start,
+			},
+			dataType : "json",
+			success : function(data) {
+				leaderData=data;
+				console.log(leaderData);
+				var td_ID = "";
+				for (var i = 0; i < leaderData.length; i++) {
+					var agenda = leaderData[i];
+					console.log(agenda);
+					if (td_ID == "td_" + agenda.dayId + "_" + agenda.level + "_"
+							+ agenda.periodId + "_") {
+						td_ID = "td_" + agenda.dayId + "_" + agenda.level + "_"
+								+ agenda.periodId + "_";
+						$("#" + td_ID + "1").append("<br/>" + agenda.content);
+						$("#" + td_ID + "2").append("<br/>" + agenda.address);
+						$("#" + td_ID + "3").append("<br/>" + agenda.relatedPeopleAndDep);
+						$("#" + td_ID + "4").append("<br/>" + agenda.comment);
+					} else {
+						td_ID = "td_" + agenda.dayId + "_" + agenda.level + "_"
+								+ agenda.periodId + "_";
+						console.log(td_ID);
+						$("#" + td_ID + "1").html(agenda.content);
+						$("#" + td_ID + "2").html(agenda.address);
+						$("#" + td_ID + "3").html(agenda.relatedPeopleAndDep);
+						$("#" + td_ID + "4").html(agenda.comment);
+						/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
+					}
+					console.log(td_ID);
+				}
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
 	}
+	
+	
 }
 
 //制作表格
-function showTable() {
-	$.ajax({
-		type : "get",
-		url : "leader",
-		async : false,
-		dataType : "json",
-		success : function(data) {
-			//console.log(data.length);
-			leaderList = data;
-			for(var i=0;i<leaderList.length;i++){
-				leadersArray.push(leaderList[i].leaderName);
-			};
-			//console.log(leadersArray);
-		},
-		error : function(data) {
-			alert("失败");
-		}
-	});
+function showTable1(name,time) {
 	
-	// 星期
-	//var weeksArray = new Array("2017-08-28<br/>周一", "周二", "周三", "周四", "周五", "周六", "周日");
-	var weeksArray = listArray[0].week;
-
-	// 时间段
-	//var period = new Array("上午", "下午", "晚上");
-	var period = listArray[0].period;
-	var tr_html = "";
-
-	for (var a = 0; a < weeksArray.length; a++) {
-		var b=a+1;
-		tr_html += "<tr><th id=week_"+b +" height=54px rowspan=\"" + leadersArray.length * period.length
-				+ "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
-		for (var b = 0; b < leadersArray.length; b++) {
-			if (b == 0) {
+	if(name==null && time == null){
+		var leadersArray = new Array();
+		$.ajax({
+			type : "get",
+			url : "leader",
+			async : false,
+			dataType : "json",
+			success : function(data) {
 				
-				tr_html += "<th rowspan=\"" + period.length + "\">"
-						+ leadersArray[b] + "</th>";
-			} else {
-				tr_html += "<tr><th rowspan=\"" + period.length + "\">"
-						+ leadersArray[b] + "</th>";
+				leaderList = data;
+				for(var i=0;i<leaderList.length;i++){
+					leadersArray.push(leaderList[i].leaderName);
+				};
+				
+			},
+			error : function(data) {
+				alert("失败");
 			}
-			for (var c = 0; c < period.length; c++) {
-				if (c >= 2)
-					tr_html += "<tr>";
-				tr_html += "<td>" + period[c] + "</td>";
-				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
-						+ (c + 1) + "_1\"></td>";
-				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
-						+ (c + 1) + "_2\"></td>";
-				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
-						+ (c + 1) + "_3\"></td>";
-				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
-						+ (c + 1) + "_4\"></td>";
-				tr_html += "</tr>"
+		});
+		
+		var weeksArray = new Array();
+		var period = new Array();
+		
+		$.ajax({
+			type : "get",
+			url : "dateall",
+			async : true,
+			dataType : "json",
+			success : function(data) {
+				
+				listArray = data;
+				time_start = listArray.startDate[0];
+				time_end = listArray.startDate[1]
+				$("#gettime").html(time_start+" ~ "+time_end);
+				weeksArray = listArray.listWeek;
+				
+				period = listArray.period
+				var tr_html = "";
+				
+				for (var a = 0; a < weeksArray.length; a++) {
+					
+					
+					tr_html += "<tr><th height=54px rowspan=\"" + leadersArray.length * period.length
+							+ "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
+					for (var b = 0; b < leadersArray.length; b++) {
+						if (b == 0) {
+							
+							tr_html += "<th rowspan=\"" + period.length + "\">"
+									+ leadersArray[b] + "</th>";
+						} else {
+							tr_html += "<tr><th rowspan=\"" + period.length + "\">"
+									+ leadersArray[b] + "</th>";
+						}
+						for (var c = 0; c < period.length; c++) {
+							if (c >= 2)
+								tr_html += "<tr>";
+							tr_html += "<td>" + period[c] + "</td>";
+							tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+									+ (c + 1) + "_1\"></td>";
+							tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+									+ (c + 1) + "_2\"></td>";
+							tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+									+ (c + 1) + "_3\"></td>";
+							tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+									+ (c + 1) + "_4\"></td>";
+							tr_html += "</tr>"
+						}
+					}
+				}
+				$("#tb_test").html(tr_html);
+			},
+			error : function(data) {
+				alert("失败");
 			}
-		}
+		});
+	}else{
+		var leadersArray = new Array();
+		
+		$.ajax({
+			type : "get",
+			url : "leader",
+			async : false,
+			data:{name:name},
+			dataType : "json",
+			success : function(data) {
+				
+				leaderList = data;
+				for(var i=0;i<leaderList.length;i++){
+					leadersArray.push(leaderList[i].leaderName);
+				};
+				
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+		
+		var weeksArray = new Array();
+		var period = new Array();
+		
+		$.ajax({
+			type : "get",
+			url : "dateall",
+			async : true,
+			data:{name:name},
+			dataType : "json",
+			success : function(data) {
+				
+				listArray = data;
+				time_start = listArray.startDate[0];
+				time_end = listArray.startDate[1]
+				$("#gettime").html(time_start+" ~ "+time_end);
+				weeksArray = listArray.listWeek;
+				period = listArray.period
+				var tr_html = "";
+				for (var a = 0; a < weeksArray.length; a++) {
+					
+					tr_html += "<tr><th height=54px rowspan=\"" + leadersArray.length * period.length
+							+ "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
+					for (var b = 0; b < leadersArray.length; b++) {
+						if (b == 0) {
+							
+							tr_html += "<th rowspan=\"" + period.length + "\">"
+									+ leadersArray[b] + "</th>";
+						} else {
+							tr_html += "<tr><th rowspan=\"" + period.length + "\">"
+									+ leadersArray[b] + "</th>";
+						}
+						for (var c = 0; c < period.length; c++) {
+							if (c >= 2)
+								tr_html += "<tr>";
+							tr_html += "<td>" + period[c] + "</td>";
+							tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+									+ (c + 1) + "_1\"></td>";
+							tr_html += "<td id=\"td_" + (a + 2) + "_" + (b + 2) + "_"
+									+ (c + 2) + "_2\"></td>";
+							tr_html += "<td id=\"td_" + (a + 3) + "_" + (b + 3) + "_"
+									+ (c + 3) + "_3\"></td>";
+							tr_html += "<td id=\"td_" + (a + 4) + "_" + (b + 4) + "_"
+									+ (c + 4) + "_4\"></td>";
+							tr_html += "</tr>"
+						}
+					}
+				}
+				$("#tb_test").html(tr_html);
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
 	}
-	$("#tb_test").html(tr_html);
+	
+}
+function showTable(name,time) {
+	var weeksArray = new Array();
+	var period = new Array();
+	var leadersArray = new Array();
+	if(name==null && time == null){
+		$.ajax({
+			type : "get",
+			url : "leader",
+			async : false,
+			dataType : "json",
+			success : function(data) {
+				
+				leaderList = data;
+				for(var i=0;i<leaderList.length;i++){
+					leadersArray.push(leaderList[i].leaderName);
+				};
+				
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+		$.ajax({
+			type : "get",
+			url : "dateall",
+			async : true,
+			dataType : "json",
+			success : function(data) {
+				
+				listArray = data;
+				time_start = listArray.startDate[0];
+				time_end = listArray.startDate[1]
+				$("#gettime").html(time_start+" ~ "+time_end);
+				weeksArray = listArray.listWeek;
+				period = listArray.period
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+	}else{
+		$.ajax({
+			type : "get",
+			url : "leader",
+			async : false,
+			data:{name:name},
+			dataType : "json",
+			success : function(data) {
+				
+				leaderList = data;
+				for(var i=0;i<leaderList.length;i++){
+					leadersArray.push(leaderList[i].leaderName);
+				};
+				
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});	
+		$.ajax({
+			type : "get",
+			url : "dateall",
+			async : true,
+			data:{name:name},
+			dataType : "json",
+			success : function(data) {
+				
+				listArray = data;
+				time_start = listArray.startDate[0];
+				time_end = listArray.startDate[1]
+				$("#gettime").html(time_start+" ~ "+time_end);
+				weeksArray = listArray.listWeek;
+				period = listArray.period
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+	}
+	generateTableFrame(leadersArray,weeksArray,period);
 }
 
+function generateTableFrame(leadersArray,weeksArray,period){
+	    var tr_html = "";
+	    for (var a = 0; a < weeksArray.length; a++) {
+	        tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
+	        for (var b = 0; b < leadersArray.length; b++) {
+	            if (b == 0) {
+	                //alert(leadersArray.length + " " + weeksArray.length + " " + period.length);
+	                tr_html += "<th rowspan=\""+period.length+"\">" + leadersArray[b] + "</th>";
+	            } else {
+	                tr_html += "<tr><th rowspan=\"" + period.length + "\">" + leadersArray[b] + "</th>";
+	            }
+	            for (var c = 0; c < period.length; c++) {
+	                if (c >= 2) tr_html += "<tr>";
+	                tr_html += "<td>" + period[c] + "</td>";
+	                tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_" + (c + 1) + "_1\"></td>";
+	                tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_" + (c + 1) + "_2\"></td>";
+	                tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_" + (c + 1) + "_3\"></td>";
+	                tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_" + (c + 1) + "_4\"></td>";
+	                tr_html+="</tr>"
+	            }
+	        }
+	    }
+	    $("#tb_test").html(tr_html);
+	}
+}
 function hideAgenda() {
 	$("#agendaShowModel").modal("hide");
 }
@@ -299,35 +496,25 @@ function hideAgenda() {
 function clicleader(name) {
 	$("#leaderName").html(name + "的工作日程");
 	leader_name = name;
-	$.ajax({
-		type : "post",
-		url : "",
-		async : true,
-		data : {
-			time_start : time_start,
-			time_end:time_end,
-			leader_name:leader_name
-		},
-		dataType : "json",
-		success : function(data) {
-			leaderData=data;
-		},
-		error : function(data) {
-			alert("失败");
-		}
-	});
+	if (leader_name=="所有领导") {
+		leader_name="";
+		showTable();
+		showAgenda();
+	}
+	showTable(leader_name,time_start);
+	showAgenda(leader_name,time_start);
+	
+	
 }
 //点击左边树形菜单
 
 //导入文件
 function inputFile() {
 	var file = $("#filename").val();
-	//console.log(file);
 	if(file == '' || file == null) {
 		alert("请选择所要上传的文件！");
 	} else {
 		var index = file.lastIndexOf(".");
-		console.log(index);
 		if(index < 0) {
 			alert("上传的文件格式不正确，请上传Excel文件");
 		} else {
