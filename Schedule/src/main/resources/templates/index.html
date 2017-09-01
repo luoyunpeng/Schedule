@@ -78,14 +78,18 @@
 						</button>
 						<h4 class="modal-title">选择要上传的文件</h4>
 					</div>
-					<div class="modal-body">
-						<input type="file" id="filename" />
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary"
-							onclick="inputFile()">上传</button>
-					</div>
+						<div class="modal-body">
+							<form id="form-1" action="upload" method="POST" enctype="multipart/form-data">
+								<input type="file" id="filename" name="file"/>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary"
+								onclick="inputFile()">上传</button>
+						</div>
+					
+					
 				</div>
 			</div>
 
@@ -105,16 +109,17 @@
 				</div>
 			</div>
 			<!--内容显示-->
-			<div class="col-md-10 " style="">
+			<div class="col-md-10 " >
 				<div class="panel panel-default">
-					<div class="panel-heading container">
-						<div class="pull-left" style="margin: 5px 0">
+					<div class="panel-heading "><!--  container-->
+					
+						<div class="" style="margin: 5px 100px; float:left" >
 							<span id="leaderName">所有领导的工作日程</span>
 						</div>
-						<div class="pull-left" style="margin: 5px 58px;">
+						<div class="" style="margin: 5px 158px ; float:left">
 							<span id="gettime">2017年8月28日~2017年9月3日</span>
 						</div>
-						<div class="btn-group pull-right" role="group" aria-label="...">
+						<div class="btn-group " role="group" aria-label="...">
 							<button id="afterweek" type="button" class="btn btn-default">
 								<i class="icon icon-chevron-left"></i> <span>上一周日程</span>
 							</button>
@@ -124,9 +129,9 @@
 							<button id="nextweek" type="button" class="btn btn-default">
 								<span>下一周日程</span> <i class="icon icon-chevron-right"></i>
 							</button>
-						</div> 
+						</div>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body ">
 
 						<table id="agenda_tb" class="table table-bordered agenda_table" border="0"
 							align="center">
