@@ -10,14 +10,41 @@ public class Schedule {
     private String address;
     private Date time;
     private String week;
+    private int dayId;
     private String timeSolt;
-    private String relatedPeopleAndDep;
-    private String comment;
+    private int periodId;
+    private int level;
     
+    private String relatedPeopleAndDep;
+
+    private String comment;
+
+    public Schedule(){}
+
+    public Schedule(String name, String content, String address, Date time, String timeSolt, String relatedPeopleAndDep,
+                     String comment) {
+             super();
+             this.name = name;
+             this.content = content;
+             this.address = address;
+             this.time = time;
+             this.timeSolt = timeSolt;
+             if(timeSolt.equals("上午")) {
+                 this.setPeriodId(1);
+             }else if (timeSolt.equals("中午")) {
+                 this.setPeriodId(2);
+             }else if(timeSolt.equals("下午")) {
+                 this.setPeriodId(3);
+             } 
+             
+             this.relatedPeopleAndDep = relatedPeopleAndDep;
+             this.comment = comment;
+    }
+
     public String getAddress() {
         return address;
     }
-    
+
     public String getComment() {
         return comment;
     }
@@ -25,9 +52,20 @@ public class Schedule {
     public String getContent() {
         return content;
     }
-
+    public int getDayId() {
+        return dayId;
+    }
+    
+    public int getLevel() {
+        return level;
+    }
+    
     public String getName() {
         return name;
+    }
+
+    public int getPeriodId() {
+        return periodId;
     }
 
     public String getRelatedPeopleAndDep() {
@@ -58,8 +96,28 @@ public class Schedule {
         this.content = content;
     }
 
+    public void setDayId(int dayId) {
+        this.dayId = dayId;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setPeriodId(int periodId) {
+        if(periodId == 1) {
+            this.setTimeSolt("上午");
+        }else if (periodId == 2) {
+            this.setTimeSolt("中午");
+        }else if (periodId == 3) {
+            this.setTimeSolt("下午");
+        }
+        
+        this.periodId = periodId;
     }
 
     public void setRelatedPeopleAndDep(String relatedPeopleAndDep) {
@@ -68,32 +126,20 @@ public class Schedule {
 
     public void setTime(Date time) {
         this.setWeek( WeekUtil.getWeek(time));
+        this.setDayId(WeekUtil.getWeekNumber(time));
         this.time = time;
     }
 
-    public void setTimeSolt(String timeSolt) {
+    public void setTimeSolt(String timeSolt) {  
+        
         this.timeSolt = timeSolt;
     }
-
+    
     public void setWeek(String week) {
         this.week = week;
     }
 
     public String toString() {
-        return name  + content + time + relatedPeopleAndDep + comment + address;
-    }
-    
-    public Schedule(){}
-
-    public Schedule(String name, String content, String address, Date time, String timeSolt, String relatedPeopleAndDep,
-                     String comment) {
-             super();
-             this.name = name;
-             this.content = content;
-             this.address = address;
-             this.time = time;
-             this.timeSolt = timeSolt;
-             this.relatedPeopleAndDep = relatedPeopleAndDep;
-             this.comment = comment;
+        return name;
     }
 }
