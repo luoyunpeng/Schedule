@@ -26,6 +26,11 @@ public class ScheduleService {
         
         return scheduleDao.getAllLeader();
     }
+    
+    public List<Level> getLeaderName(String name ){
+        
+        return scheduleDao.getLeader(name);
+    }
 
     public List<Schedule> getScheduleByName(String name) {
 

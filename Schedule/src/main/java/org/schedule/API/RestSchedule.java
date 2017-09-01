@@ -30,9 +30,13 @@ public class RestSchedule {
     }
     
     @RequestMapping(value = "/leader", method = RequestMethod.GET)
-    public List<Level> getLeaderName() {
-        
-        return scheduleService.getAllLeaderName();
+    public List<Level> getLeaderName(@RequestParam(value = "name", required = false) String name) {
+        System.out.println(name);
+    	if(name == null|| name.equals("")){
+    		return scheduleService.getAllLeaderName();
+        }
+    	
+        return scheduleService.getLeaderName(name);
     }
     
     @RequestMapping(value = "/date", method = RequestMethod.GET)
@@ -46,9 +50,13 @@ public class RestSchedule {
     }
     
     @RequestMapping(value = "/dateall", method = RequestMethod.GET)
-    public Week getAllWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
-       
-        Date current = WeekUtil.parse(currentDate);
+    public Week getAllWeekDate(@RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
+    	Date current = null;
+    	if (currentDate ==null||currentDate.equals("")) {
+    	    current =  new Date();//WeekUtil.parse(currentDate);
+       	}else{
+       		 current =  WeekUtil.parse(currentDate);
+       	}
         int dayNumber = WeekUtil.getWeekNumber(current);
         String[] array = {WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber)};
         return new Week(array , WeekUtil.getAllWeekString(current, dayNumber));
@@ -77,8 +85,14 @@ public class RestSchedule {
     }
 	
     @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
-    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
-        if( name.equals("") || name == null) {
+    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
+    	Date current = null;
+    	if (currentDate ==null||currentDate.equals("")) {
+    	    current =  new Date();//WeekUtil.parse(currentDate);
+    	    currentDate = WeekUtil.format(current);
+       	}
+    	
+    	if( name == null|| name.equals("")) {
             return scheduleService.getScheduleByDate(currentDate);
         }
         
