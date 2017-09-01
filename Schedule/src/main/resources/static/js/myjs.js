@@ -1,310 +1,295 @@
 $(document).ready(function() {
 
-	$("li").addClass("text-center");
-
-	//把后台获取到的数据赋给定义好的数组变量
-	for(var i = 0, l = leaderData.length; i < l; i++) {
-		if(leaderData[i].week == '星期一') {
-			if(leaderData[i].timenow == '上午') {
-				MondayMorning.push(leaderData[i]);
-				$("#MondayMorning").addClass("success");
-			};
-			if(leaderData[i].timenow == '下午') {
-				MondayAfternoon.push(leaderData[i]);
-				$("#MondayAfternoon").addClass("active");
-			};
-			if(leaderData[i].timenow == '晚上') {
-				MondayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期二') {
-			if(leaderData[i].timenow == '上午') {
-				TuesdayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				TuesdayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				TuesdayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期三') {
-			if(leaderData[i].timenow == '上午') {
-				WednesdayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				WednesdayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				WednesdayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期四') {
-			if(leaderData[i].timenow == '上午') {
-				ThursdayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				ThursdayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				ThursdayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期五') {
-			if(leaderData[i].timenow == '上午') {
-				FridayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				FridayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				FridayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期六') {
-			if(leaderData[i].timenow == '上午') {
-				SaturdayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				SaturdayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				SaturdayNight.push(leaderData[i]);
-			}
-		};
-		if(leaderData[i].week == '星期天') {
-			if(leaderData[i].timenow == '上午') {
-				SundayMorning.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '下午') {
-				SundayAfternoon.push(leaderData[i]);
-			};
-			if(leaderData[i].timenow == '晚上') {
-				SundayNight.push(leaderData[i]);
-			}
-		}
+	
+	
+	//获取领导名字
+	
+	showMen();
+	showTable();
+	showAgenda();
+	$("li,th,td").addClass("text-center");
+	
+	$("#afterweek").on("click",function(){
+		$('#afterweek').removeClass('btn-default');
+		$('#afterweek').addClass('btn-primary');
 		
-	}
+		$('#nowweek').removeClass('btn-primary');
+		$('#nowweek').addClass('btn-default');
+		
+		$('#nextweek').removeClass('btn-primary');
+		$('#nextweek').addClass('btn-default');
+		
+		$.ajax({
+			type : "post",
+			url : "",
+			async : true,
+			data : {
+				time_start : time_start,
+				time_end:time_end,
+				leader_name:leader_name
+			},
+			dataType : "json",
+			success : function(data) {
+				leaderData=data;
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+		
+	});
+	
+	$("#nowweek").on("click",function(){
+		$('#afterweek').removeClass('btn-primary');
+		$('#afterweek').addClass('btn-default');
+		
+		$('#nowweek').removeClass('btn-default');
+		$('#nowweek').addClass('btn-primary');
+		
+		$('#nextweek').removeClass('btn-primary');
+		$('#nextweek').addClass('btn-default');
+		
+		$.ajax({
+			type : "post",
+			url : "",
+			async : true,
+			data : {
+				time_start : time_start,
+				time_end:time_end,
+				leader_name:leader_name
+			},
+			dataType : "json",
+			success : function(data) {
+				leaderData=data;
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+	});
+	
+	$("#nextweek").on("click",function(){
+		$('#afterweek').removeClass('btn-primary');
+		$('#afterweek').addClass('btn-default');
+		
+		$('#nowweek').removeClass('btn-primary');
+		$('#nowweek').addClass('btn-default');
+		
+		$('#nextweek').removeClass('btn-default');
+		$('#nextweek').addClass('btn-primary');
+		
+		$.ajax({
+			type : "post",
+			url : "",
+			async : true,
+			data : {
+				time_start : time_start,
+				time_end:time_end,
+				leader_name:leader_name
+			},
+			dataType : "json",
+			success : function(data) {
+				leaderData=data;
+			},
+			error : function(data) {
+				alert("失败");
+			}
+		});
+	});
+	
+	$("#gettime").html(time_start+" ~ "+time_end);
 });
 
-var time_start;
-var time_end;
-var leader_name;
-
-function outFile(){
-	
+function showMen(){
+	$.ajax({
+		type : "get",
+		url : "leader",
+		async : true,
+		dataType : "json",
+		success : function(data) {
+			
+			leaderList = data;
+			var ul ="<ul class='list-group'>"
+			for(var i=0;i<leaderList.length;i++){
+				ul +="<li class='list-group-item text-center'><a href='#' onclick='clicleader(\""+leaderList[i].leaderName+"\")'>"+leaderList[i].leaderName+"</a></li>"
+			};
+				ul+="<li class='list-group-item text-center'><a href='#' onclick='clicleader(\"所有领导\")'>所有领导</a></li></ul>";
+				$("#showMen").html(ul);
+			//console.log(leadersArray);
+		},
+		error : function(data) {
+			alert("失败");
+		}
+	}); 
 }
-//后台获取到的数据
-var leaderData = [{
-		name: '秦如培',
-		datatitle: '开会',
-		time: '2017-08-28',
-		week: '星期一',
-		timenow: '上午',
-		place: "贵安新区",
-		joinpersonnel: "张三，李四，王麻子",
-		remarks: '有事微信留言'
-	},
-	{
-		name: '马长青',
-		datatitle: '外访',
-		time: '2017-08-28',
-		week: '星期一',
-		timenow: '下午',
-		place: "金阳高新区",
-		joinpersonnel: "赵四，王麻子",
-		remarks: '随时电话联系'
-	},
-	{
-		name: '孙登峰',
-		datatitle: '座谈会',
-		time: '2017-08-28',
-		week: '星期一',
-		timenow: '晚上',
-		place: "贵安新区",
-		joinpersonnel: "全体干部",
-		remarks: '请做好笔记'
-	},
+
+var listArray =[
+	{startTime:["2017-08-28","2017-09-02"],
+		week:["2017-08-28<br/>星期一","2017-08-29<br/>星期二","2017-08-30<br/>星期三","2017-08-31<br/>星期四",
+		"2017-09-01<br/>星期五","2017-09-02<br/>星期六","2017-09-03<br/>星期日"],
+		leader:["秦如培","马长青","孙登峰","宗文","曾瑜"],
+		period:["上午","下午","晚上"]}
 ]
+var leaderList;
+var time_start = listArray[0].startTime[0];
+var time_end = listArray[0].startTime[1];
+var leader_name;
+var leadersArray = new Array();
 
-//自定义数组变量来存取数据
-var MondayMorning = [];
-var MondayAfternoon = [];
-var MondayNight = [];
-var TuesdayMorning = [];
-var TuesdayAfternoon = [];
-var TuesdayNight = [];
-var WednesdayMorning = [];
-var WednesdayAfternoon = [];
-var WednesdayNight = [];
-var ThursdayMorning = [];
-var ThursdayAfternoon = [];
-var ThursdayNight = [];
-var FridayMorning = [];
-var FridayAfternoon = [];
-var FridayNight = [];
-var SaturdayMorning = [];
-var SaturdayAfternoon = [];
-var SaturdayNight = [];
-var SundayMorning = [];
-var SundayAfternoon = [];
-var SundayNight = [];
 
-function MondayMorningModel() {
-	$("#modelshowtime").text(MondayMorning[0].time + MondayMorning[0].timenow + "日程信息");
-	/*$("#modeltable").*/
-	$("#rcContent").append("<tr><td>111</td></tr>")
-}
 
-function MondayAfternoonModel() {
-	$("#modelshowtime").text(MondayAfternoon[0].time + MondayAfternoon[0].timenow + "日程信息")
-}
+function outFile() {
 
-function MondayNightModel() {
-	$("#modelshowtime").html(MondayNight[0].time + MondayNight[0].timenow + "日程信息")
 }
+// 后台获取到的数据
+var leaderData = [ {
+	nameId : '2',
+	name : '李四',
+	datatitle : '外访',
+	time: '2017-08-28',
+	week : '星期四',
+	dayId : '4',
+	timenow : '下午',
+	periodId : '2',
+	place : "金阳高新区",
+	joinpersonnel : "赵四，王麻子",
+	remarks : '随时电话联系'
+}, {
+	nameId : '2',
+	name : '李四',
+	datatitle : '开会',
+	time: '2017-08-28',
+	week : '星期四',
+	dayId : '4',
+	timenow : '下午',
+	periodId : '2',
+	place : "金阳高新区",
+	joinpersonnel : "赵四，王麻子",
+	remarks : '随时电话联系'
+}, {
+	nameId : '1',
+	name : '张三',
+	datatitle : '开会',
+	time: '2017-08-28',
+	week : '星期一',
+	dayId : '1',
+	timenow : '晚上午',
+	periodId : '2',
+	place : "金阳高新区",
+	joinpersonnel : "赵四，王麻子",
+	remarks : '随时电话联系'
+}, {
+	nameId : '4',
+	name : '小辉',
+	datatitle : '开会',
+	time: '2017-08-28',
+	week : '星期四',
+	dayId : '4',
+	timenow : '上午',
+	periodId : '1',
+	place : "金阳高新区",
+	joinpersonnel : "赵四，王麻子",
+	remarks : '随时电话联系'
+}, {
+	nameId : '5',
+	name : '云鹏',
+	datatitle : '开会',
+	time: '2017-08-28',
+	week : '星期一',
+	dayId : '1',
+	timenow : '晚上',
+	periodId : '3',
+	place : "金阳高新区",
+	joinpersonnel : "赵四，王麻子",
+	remarks : '随时电话联系'
+} ]
 
-function TuesdayMorningModel() {
-	$("#modelshowtime").html(TuesdayMorning[0].time + TuesdayMorning[0].timenow + "日程信息")
-}
-
-function TuesdayAfternoonModel() {
-	$("#modelshowtime").html(TuesdayAfternoon[0].time + TuesdayAfternoon[0].timenow + "日程信息")
-}
-
-function TuesdayNightModel() {
-	$("#modelshowtime").html(TuesdayNight[0].time + TuesdayNight[0].timenow + "日程信息")
-}
-function WednesdayMorningModel() {
-	$("#modelshowtime").html(WednesdayMorning[0].time + WednesdayMorning[0].timenow + "日程信息")
-}
-
-function WednesdayAfternoonModel() {
-	$("#modelshowtime").html(WednesdayAfternoon[0].time + WednesdayAfternoon[0].timenow + "日程信息")
-}
-
-function WednesdayNightModel() {
-	$("#modelshowtime").html(WednesdayNight[0].time + WednesdayNight[0].timenow + "日程信息")
-}
-function ThursdayMorningModel() {
-	$("#modelshowtime").html(ThursdayMorning[0].time + ThursdayMorning[0].timenow + "日程信息")
-}
-
-function ThursdayAfternoonModel() {
-	$("#modelshowtime").html(ThursdayAfternoon[0].time + ThursdayAfternoon[0].timenow + "日程信息")
-}
-
-function ThursdayNightModel() {
-	$("#modelshowtime").html(ThursdayNight[0].time + ThursdayNight[0].timenow + "日程信息")
-}
-
-function FridayMorningModel() {
-	$("#modelshowtime").html(FridayMorning[0].time + FridayMorning[0].timenow + "日程信息")
-}
-
-function FridayAfternoonModel() {
-	$("#modelshowtime").html(FridayAfternoon[0].time + FridayAfternoon[0].timenow + "日程信息")
-}
-
-function FridayNightModel() {
-	$("#modelshowtime").html(FridayNight[0].time + FridayNight[0].timenow + "日程信息")
-}
-
-function SaturdayMorningModel() {
-	$("#modelshowtime").html(SaturdayMorning[0].time + SaturdayMorning[0].timenow + "日程信息")
-}
-
-function SaturdayAfternoonModel() {
-	$("#modelshowtime").html(SaturdayAfternoon[0].time + SaturdayAfternoon[0].timenow + "日程信息")
-}
-
-function SaturdayNightModel() {
-	$("#modelshowtime").html(SaturdayNight[0].time + SaturdayNight[0].timenow + "日程信息")
-}
-
-function SundayMorningModel() {
-	$("#modelshowtime").html(SundayMorning[0].time + SundayMorning[0].timenow + "日程信息")
-}
-
-function SundayAfternoonModel() {
-	$("#modelshowtime").html(SundayAfternoon[0].time + SundayAfternoon[0].timenow + "日程信息")
-}
-
-function SundayNightModel() {
-	$("#modelshowtime").html(SundayNight[0].time + SundayNight[0].timenow + "日程信息")
-}
-
-//点击表格弹出模态框
-function showAgentda(n) {
-	$('#agendaShowModel').modal() // 以默认值初始化
-	switch(n) {
-		case 1:
-			MondayMorningModel();
-			break;
-		case 2:
-			MondayAfternoonModel();
-			break;
-		case 3:
-			MondayNightModel();
-			break;
-		case 4:
-			TuesdayMorningModel();
-			break;
-		case 5:
-			TuesdayAfternoonModel();
-			break;
-		case 6:
-			TuesdayNightModel();
-			break;
-		case 7:
-			WednesdayMorningModel();
-			break;
-		case 8:
-			WednesdayAfternoonModel();
-			break;
-		case 9:
-			WednesdayNightModel();
-			break;
-		case 10:
-			ThursdayMorningModel();
-			break;
-		case 11:
-			ThursdayAfternoonModel();
-			break;
-		case 12:
-			ThursdayNightModel();
-			break;
-		case 13:
-			FridayMorningModel();
-			break;
-		case 14:
-			FridayAfternoonModel();
-			break;
-		case 15:
-			FridayNightModel();
-			break;
-		case 16:
-			SaturdayMorningModel();
-			break;
-		case 17:
-			SaturdayAfternoonModel();
-			break;
-		case 18:
-			SaturdayNightModel();
-			break;
-		case 19:
-			SundayMorningModel();
-			break;
-		case 20:
-			SundayAfternoonModel();
-			break;
-		case 21:
-			SundayNightModel();
-			break;
-		
+//给表哥填充数据
+function showAgenda() {
+	
+	var td_ID = "";
+	for (var i = 0; i < leaderData.length; i++) {
+		var agenda = leaderData[i];
+		if (td_ID == "td_" + agenda.dayId + "_" + agenda.nameId + "_"
+				+ agenda.periodId + "_") {
+			td_ID = "td_" + agenda.dayId + "_" + agenda.nameId + "_"
+					+ agenda.periodId + "_";
+			$("#" + td_ID + "1").append("<br/>" + agenda.datatitle);
+			$("#" + td_ID + "2").append("<br/>" + agenda.place);
+			$("#" + td_ID + "3").append("<br/>" + agenda.joinpersonnel);
+			$("#" + td_ID + "4").append("<br/>" + agenda.remarks);
+		} else {
+			td_ID = "td_" + agenda.dayId + "_" + agenda.nameId + "_"
+					+ agenda.periodId + "_";
+			week_ID="week_"+agenda.dayId;
+			$("#" + td_ID + "1").html(agenda.datatitle);
+			$("#" + td_ID + "2").html(agenda.place);
+			$("#" + td_ID + "3").html(agenda.joinpersonnel);
+			$("#" + td_ID + "4").html(agenda.remarks);
+			/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
+		}
 	}
-	console.log($("#agendaShowModel"));
+}
 
+//制作表格
+function showTable() {
+	$.ajax({
+		type : "get",
+		url : "leader",
+		async : false,
+		dataType : "json",
+		success : function(data) {
+			//console.log(data.length);
+			leaderList = data;
+			for(var i=0;i<leaderList.length;i++){
+				leadersArray.push(leaderList[i].leaderName);
+			};
+			//console.log(leadersArray);
+		},
+		error : function(data) {
+			alert("失败");
+		}
+	});
+	
+	// 星期
+	//var weeksArray = new Array("2017-08-28<br/>周一", "周二", "周三", "周四", "周五", "周六", "周日");
+	var weeksArray = listArray[0].week;
+
+	// 时间段
+	//var period = new Array("上午", "下午", "晚上");
+	var period = listArray[0].period;
+	var tr_html = "";
+
+	for (var a = 0; a < weeksArray.length; a++) {
+		var b=a+1;
+		tr_html += "<tr><th id=week_"+b +" height=54px rowspan=\"" + leadersArray.length * period.length
+				+ "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
+		for (var b = 0; b < leadersArray.length; b++) {
+			if (b == 0) {
+				
+				tr_html += "<th rowspan=\"" + period.length + "\">"
+						+ leadersArray[b] + "</th>";
+			} else {
+				tr_html += "<tr><th rowspan=\"" + period.length + "\">"
+						+ leadersArray[b] + "</th>";
+			}
+			for (var c = 0; c < period.length; c++) {
+				if (c >= 2)
+					tr_html += "<tr>";
+				tr_html += "<td>" + period[c] + "</td>";
+				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+						+ (c + 1) + "_1\"></td>";
+				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+						+ (c + 1) + "_2\"></td>";
+				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+						+ (c + 1) + "_3\"></td>";
+				tr_html += "<td id=\"td_" + (a + 1) + "_" + (b + 1) + "_"
+						+ (c + 1) + "_4\"></td>";
+				tr_html += "</tr>"
+			}
+		}
+	}
+	$("#tb_test").html(tr_html);
 }
 
 function hideAgenda() {
@@ -313,13 +298,31 @@ function hideAgenda() {
 //点击左边
 function clicleader(name) {
 	$("#leaderName").html(name + "的工作日程");
+	leader_name = name;
+	$.ajax({
+		type : "post",
+		url : "",
+		async : true,
+		data : {
+			time_start : time_start,
+			time_end:time_end,
+			leader_name:leader_name
+		},
+		dataType : "json",
+		success : function(data) {
+			leaderData=data;
+		},
+		error : function(data) {
+			alert("失败");
+		}
+	});
 }
 //点击左边树形菜单
 
 //导入文件
 function inputFile() {
 	var file = $("#filename").val();
-	console.log(file);
+	//console.log(file);
 	if(file == '' || file == null) {
 		alert("请选择所要上传的文件！");
 	} else {
