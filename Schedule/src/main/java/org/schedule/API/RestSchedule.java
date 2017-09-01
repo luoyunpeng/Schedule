@@ -37,17 +37,76 @@ public class RestSchedule {
     
     @RequestMapping(value = "/date", method = RequestMethod.GET)
     public Week getCurrentWeekSEDate() throws ParseException {
-        String currentDate =  WeekUtil.format(new Date());
+       // String currentDate =  WeekUtil.format(new Date());
+       
+      //  Date current = WeekUtil.parse(currentDate);
+        //int dayNumber = WeekUtil.getWeekNumber(current);
+       // String[] array = {WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber)};
+        return null; //new Week(WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
+    }
+    
+    @RequestMapping(value = "/dateall", method = RequestMethod.GET)
+    public Week getAllWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
        
         Date current = WeekUtil.parse(currentDate);
         int dayNumber = WeekUtil.getWeekNumber(current);
-        return new Week(WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
+        String[] array = {WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber)};
+        return new Week(array , WeekUtil.getAllWeekString(current, dayNumber));
+    }
+    
+    @RequestMapping(value = "/dateall/last", method = RequestMethod.GET)
+    public Week getLastWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
+       
+        Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        Date lastCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfLastWeek(current, dayNumber));
+        dayNumber = WeekUtil.getWeekNumber(lastCurrent);
+        String[] array = {WeekUtil.getFirstDayOfCurrentWeek(lastCurrent, dayNumber), WeekUtil.getLastDayOfCurrentWeek(lastCurrent, dayNumber)};
+        return  new Week(array, WeekUtil.getAllWeekString(current, dayNumber));
+    }
+    
+    @RequestMapping(value = "/dateall/next", method = RequestMethod.GET)
+    public Week getNextWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
+       
+        Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        Date nextCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfNextWeek(current, dayNumber));
+        dayNumber = WeekUtil.getWeekNumber(nextCurrent);
+        String[] array = {WeekUtil.getFirstDayOfCurrentWeek(nextCurrent, dayNumber), WeekUtil.getLastDayOfCurrentWeek(nextCurrent, dayNumber)};
+        return  new Week(array, WeekUtil.getAllWeekString(nextCurrent, dayNumber)); //new Week(WeekUtil.format(nextCurrent), WeekUtil.getLastDayOfNextWeek(current, dayNumber), WeekUtil.getAllWeek(nextCurrent, WeekUtil.getWeekNumber(nextCurrent)));
     }
 	
     @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
     public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
+        if( name.equals("") || name == null) {
+            return scheduleService.getScheduleByDate(currentDate);
+        }
         
         return scheduleService.getScheduleByNameAndDate(name, currentDate);
+    }
+	
+    @RequestMapping(value = "/schedule/name/date/next", method = RequestMethod.GET)
+    public List<Schedule> getNextScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
+        Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        Date nextCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfNextWeek(current, dayNumber));
+        if( name.equals("") || name == null) {
+            return scheduleService.getScheduleByDate(WeekUtil.format(nextCurrent));
+        }
+        
+        return scheduleService.getScheduleByNameAndDate(name, WeekUtil.format(nextCurrent));
+    }
+    
+    @RequestMapping(value = "/schedule/name/date/last", method = RequestMethod.GET)
+    public List<Schedule> getLastScheduleByNameAndDate(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
+        Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        Date lastCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfLastWeek(current, dayNumber));
+        if( name.equals("") || name == null) {
+            return scheduleService.getScheduleByDate(WeekUtil.format(lastCurrent));
+        }
+        
+        return scheduleService.getScheduleByNameAndDate(name, WeekUtil.format(lastCurrent));
     }
 	
     @RequestMapping(value = "/schedule/date", method = RequestMethod.GET)

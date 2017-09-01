@@ -31,8 +31,6 @@ public class Schedule {
              this.timeSolt = timeSolt;
              if(timeSolt.equals("上午")) {
                  this.setPeriodId(1);
-             }else if (timeSolt.equals("中午")) {
-                 this.setPeriodId(2);
              }else if(timeSolt.equals("下午")) {
                  this.setPeriodId(3);
              } 
@@ -111,8 +109,6 @@ public class Schedule {
     public void setPeriodId(int periodId) {
         if(periodId == 1) {
             this.setTimeSolt("上午");
-        }else if (periodId == 2) {
-            this.setTimeSolt("中午");
         }else if (periodId == 3) {
             this.setTimeSolt("下午");
         }
