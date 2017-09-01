@@ -100,38 +100,8 @@
 					<!-- Default panel contents -->
 					<div class="panel-heading text-center">党工委管委会领导</div>
 
-
-					<ul class="list-group">
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('秦如培')">秦如培</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('马长青')">马长青</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('孙登峰')">孙登峰</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('宗文')">宗&nbsp;&nbsp;&nbsp;文</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('曾瑜')">曾&nbsp;&nbsp;&nbsp;瑜</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('欧阳武')">欧阳武</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('黄家耀')">黄家耀</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('许剑龙')">许剑龙</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('李建峰')">李建峰</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('耿贵刚')">耿贵刚</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('樊晓江')">樊晓江</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('朱克乾')">朱克乾</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('金和平')">金和平</a></li>
-						<li class="list-group-item"><a href="#"
-							onclick="clicleader('邓波')">邓&nbsp;&nbsp;&nbsp;波</a></li>
-
-					</ul>
+					<div id="showMen"></div>
+					
 				</div>
 			</div>
 			<!--内容显示-->
@@ -145,16 +115,16 @@
 							<span id="gettime">2017年8月28日~2017年9月3日</span>
 						</div>
 						<div class="btn-group pull-right" role="group" aria-label="...">
-							<button type="button" class="btn btn-primary">
+							<button id="afterweek" type="button" class="btn btn-default">
 								<i class="icon icon-chevron-left"></i> <span>上一周日程</span>
 							</button>
-							<button type="button" class="btn btn-primary">
+							<button id="nowweek" type="button" class="btn btn-primary ">
 								<span>本周日程</span>
 							</button>
-							<button type="button" class="btn btn-primary">
+							<button id="nextweek" type="button" class="btn btn-default">
 								<span>下一周日程</span> <i class="icon icon-chevron-right"></i>
 							</button>
-						</div>
+						</div> 
 					</div>
 					<div class="panel-body">
 
@@ -173,108 +143,14 @@
 											&nbsp;备注</strong><br /></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td rowspan="9" style="text-align: center;">周一<br />
-									</td>
-									<td rowspan="3" style="text-align: center;"><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">秦如培</span><br />
-									</td>
-									<td style="text-align: center;">上午</td>
-									<td style="text-align: center;">开会<br />
-									</td>
-									<td style="text-align: center;"><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">贵安新区</span><br />
-									</td>
-									<td style="text-align: center;"><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">某某部门领导及其部门人员</span><br />
-									</td>
-									<td style="text-align: center;"><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">2017-8-28</span><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">&nbsp;</span><span
-										style="font-family: &amp; quot; font-size: 14.6667px; line-height: 24.9333px; background-color: #FFFFFF;">08:00~11:00</span><br />
-									</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">下午</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">晚上</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td rowspan="3" style="text-align: center;"><br /></td>
-									<td style="text-align: center;">上午</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">下午</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">晚上</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td rowspan="3" style="text-align: center;"><br /></td>
-									<td style="text-align: center;">上午<br />
-									</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">下午</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">晚上</td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-									<td style="text-align: center;"><br /></td>
-								</tr>
+							<tbody id="tb_test">
+								
 							</tbody>
 						</table>
 						
 						
 					</div>
-					<div class="modal fade" id="myModal">
-						<div class="modal-dialog modal-sm">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">
-										<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
-									</button>
-									<h4 class="modal-title" id="title"></h4>
-								</div>
-								<div class="modal-body">
-
-									<div id="bodytext"></div>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 
 				</div>
 			</div>
