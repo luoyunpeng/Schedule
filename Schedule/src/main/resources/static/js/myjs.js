@@ -227,7 +227,7 @@ function showTable1(name,time) {
 				for(var i=0;i<leaderList.length;i++){
 					leadersArray.push(leaderList[i]);
 				};
-				
+				console.log(11)
 			},
 			error : function(data) {
 				alert("失败");
