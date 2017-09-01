@@ -130,7 +130,7 @@ public class WeekUtil {
         c.setTime(date);
         int day = c.get(Calendar.DATE);
         
-        tmp[0] = getWeek(date) + "<br/><br/>" + threadLocal.get().format(date);
+        tmp[0] = threadLocal.get().format(date) + "(" + getWeek(date) + ")";
         int tmpDay = day;
         for (int i = 1; i <= 6; i++) {
             c.set(Calendar.DATE, tmpDay + 1);
