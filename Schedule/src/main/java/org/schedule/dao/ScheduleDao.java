@@ -28,11 +28,11 @@ public class ScheduleDao {
     // batch load with list
     public int loadSchedule(List<Schedule> list) {
         //Schedule(name,content,address,time,periodId,relatedPeopleAndDep,comment, level)
-        String sql = "insert into Schedule(name,content,address,time,periodId,relatedPeopleAndDep,comment,level) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into Schedule(name,content,address,time,periodId,relatedPeopleAndDep,comment) values (?, ?, ?, ?, ?, ?, ?)";
 
         List<Object[]> batchArgs = new ArrayList<Object[]>();
         for (Schedule schedule : list) {
-            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getPeriodId(), schedule.getRelatedPeopleAndDep(), schedule.getComment(), schedule.getLevel() });
+            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getPeriodId(), schedule.getRelatedPeopleAndDep(), schedule.getComment()});
         }
         
         int[] rs = jdbcTemplate.batchUpdate(sql, batchArgs);
