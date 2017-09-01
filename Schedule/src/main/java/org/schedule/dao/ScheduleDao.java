@@ -32,7 +32,7 @@ public class ScheduleDao {
 
         List<Object[]> batchArgs = new ArrayList<Object[]>();
         for (Schedule schedule : list) {
-            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getPeriodId(), schedule.getRelatedPeopleAndDep(), schedule.getComment()});
+            batchArgs.add(new Object[] { schedule.getName(), schedule.getContent(), schedule.getAddress(), schedule.getTime(),schedule.getPeriodId(), schedule.getRelatedPeopleAndDep(), schedule.getComment() });
         }
         
         int[] rs = jdbcTemplate.batchUpdate(sql, batchArgs);

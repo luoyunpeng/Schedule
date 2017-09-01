@@ -176,7 +176,7 @@ function showAgenda1(name,time,url) {
 				}
 			},
 			error : function(data) {
-				
+				alert("失败11");
 			}
 		});
 	}
@@ -228,8 +228,8 @@ function showAgenda(name,time) {
 			url : "/schedule/name/date",
 			async : true,
 			data : {
-				name:name,
-				currentDate : time,
+				name:leader_name,
+				currentDate : time_start,
 			},
 			dataType : "json",
 			success : function(data) {
@@ -487,8 +487,8 @@ function clicleader(name) {
 	
 	$('#nextweek').removeClass('btn-primary');
 	$('#nextweek').addClass('btn-default');
-	showTable(leader_name,null);
-	showAgenda(leader_name,null);
+	showTable(leader_name,time_start);
+	showAgenda(leader_name,time_start);
 	
 	
 }
