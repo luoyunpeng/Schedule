@@ -1,13 +1,12 @@
 package org.schedule.service;
 
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.schedule.dao.ScheduleDao;
+import org.schedule.entity.Level;
 import org.schedule.entity.Schedule;
-import org.schedule.util.ScheduleComparator;
 import org.schedule.util.WeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,11 @@ public class ScheduleService {
     public int loadSchedule(List<Schedule> list) {
 
         return scheduleDao.loadSchedule(list);
+    }
+    
+    public List<Level> getAllLeaderName(){
+        
+        return scheduleDao.getAllLeader();
     }
 
     public List<Schedule> getScheduleByName(String name) {
@@ -46,24 +50,14 @@ public class ScheduleService {
         Date current = WeekUtil.parse(currentDate);
         int dayNumber = WeekUtil.getWeekNumber(current);
         
-        List<Schedule> list= scheduleDao.getScheduleByDate(WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
-        
-        for(Schedule s : list) {
-            System.out.println(s.toString());
-        }
-        
-        System.out.println("#######################");
-        Collections.sort(list, new ScheduleComparator());
-        
-        for(Schedule s : list) {
-            System.out.println(s.toString());
-        }
-        return list;
+        return scheduleDao.getScheduleByDate(WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
     }
 
-    public List<Schedule> getScheduleByContent(String content) {
+    public List<Schedule> getScheduleByContent(String content, String currentDate) throws ParseException {
         content = "%" + content + "%";
-        return scheduleDao.getScheduleByContent(content);
+        Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        return scheduleDao.getScheduleByContent(content, WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
     }
 
     public List<Schedule> getScheduleByContentAndDate(String content, Date startDate, Date endDate) {
