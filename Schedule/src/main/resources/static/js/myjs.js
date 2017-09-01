@@ -5,8 +5,7 @@ $(document).ready(function() {
 	//获取领导名字
 	
 	showMen();
-	showTable();
-	showAgenda();
+	getLeaderInfo();
 	getWeekTime();
 	
 	
@@ -19,10 +18,9 @@ $(document).ready(function() {
 		
 		$('#nextweek').removeClass('btn-primary');
 		$('#nextweek').addClass('btn-default');
+		getLeaderInfo1(leader_name,time_start,"/dateall/last","/schedule/name/date/last");
 		
-		showTable1(leader_name,time_start,"/dateall/last");
-		showAgenda1(leader_name,time_start,"/schedule/name/date/last");
-		
+		//alert($("#afterweek").disabled)
 	});
 	
 	$("#nowweek").on("click",function(){
@@ -35,8 +33,7 @@ $(document).ready(function() {
 		$('#nextweek').removeClass('btn-primary');
 		$('#nextweek').addClass('btn-default');
 		
-		showTable(leader_name,null);
-		showAgenda(leader_name,null);
+		getLeaderInfo(leader_name,null);
 	});
 	
 	$("#nextweek").on("click",function(){
@@ -49,8 +46,7 @@ $(document).ready(function() {
 		$('#nextweek').removeClass('btn-default');
 		$('#nextweek').addClass('btn-primary');
 		
-		showTable1(leader_name,time_start,"/dateall/next");
-		showAgenda1(leader_name,time_start,"/schedule/name/date/next");
+		getLeaderInfo1(leader_name,time_start,"/dateall/next","/schedule/name/date/next");
 	});
 	
 	$("li,th,td").addClass("text-center");
@@ -95,13 +91,12 @@ function outFile() {
 // 后台获取到的数据
 
 //给表填充数据
-function showAgenda1(name,time,url) {
-	
+function showAgenda1(leader_name,time,dateUrl) {
 	if(name==null && time!=null){
 		var leaderData = new Array();
 		$.ajax({
 			type : "get",
-			url : url,
+			url : dateUrl,
 			async : true,
 			data:{currentDate:time},
 			dataType : "json",
@@ -129,8 +124,8 @@ function showAgenda1(name,time,url) {
 							/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
 						}
 					}
-				
-				
+					//$("#sss")
+					enableAllLinkandBtn();
 			},
 			error : function(data) {
 				
@@ -140,11 +135,11 @@ function showAgenda1(name,time,url) {
 		var leaderData = new Array();
 		$.ajax({
 			type : "get",
-			url : url,
+			url : dateUrl,
 			async : true,
 			data : {
 				name:leader_name,
-				currentDate : time_start,
+				currentDate : time
 			},
 			dataType : "json",
 			success : function(data) {
@@ -174,6 +169,7 @@ function showAgenda1(name,time,url) {
 					}
 					//console.log(td_ID);
 				}
+				enableAllLinkandBtn();
 			},
 			error : function(data) {
 				
@@ -216,6 +212,7 @@ function showAgenda(name,time) {
 						/*$("#" +week_ID).prepend("<br/>" +agenda.time);*/
 					}
 				}
+				enableAllLinkandBtn();
 			},
 			error : function(data) {
 				alert("失败");
@@ -259,6 +256,7 @@ function showAgenda(name,time) {
 					}
 					//console.log(td_ID);
 				}
+				enableAllLinkandBtn();
 			},
 			error : function(data) {
 				alert("失败");
@@ -269,9 +267,8 @@ function showAgenda(name,time) {
 }
 
 //制作表格
-function showTable1(name,time,url) {
-	var weeksArray = new Array();
-	var period = new Array();
+function getLeaderInfo1(name,time,url,dateUrl){
+	disableAllLinkandBtn();
 	var leadersArray = new Array();
 	if(name==null && time != null){
 		$.ajax({
@@ -284,6 +281,7 @@ function showTable1(name,time,url) {
 				leaderList = data;
 				for(var i=0;i<leaderList.length;i++){
 					leadersArray.push(leaderList[i]);
+					getDateInfo1(name,leadersArray,time,url,dateUrl);
 				};
 				console.log(11)
 			},
@@ -291,27 +289,7 @@ function showTable1(name,time,url) {
 				alert("失败");
 			}
 		});
-		$.ajax({
-			type : "get",
-			url : url,
-			async : true,
-			data:{currentDate:time},
-			dataType : "json",
-			success : function(data) {
-				console.log(data);
-				listArray = data;
-				time_start = listArray.startDate[0];
-				time_end = listArray.startDate[1]
-				$("#gettime").html(time_start+" ~ "+time_end);
-				weeksArray = listArray.listWeek;
-				//console.log(listArray.listWeek);
-				period = listArray.period
-				generateTableFrame(leadersArray,weeksArray,period)
-			},
-			error : function(data) {
-				alert("失败");
-			}
-		});
+		
 	}else{
 		$.ajax({
 			type : "get",
@@ -320,10 +298,10 @@ function showTable1(name,time,url) {
 			data:{name:name},
 			dataType : "json",
 			success : function(data) {
-				
 				leaderList = data;
 				for(var i=0;i<leaderList.length;i++){
 					leadersArray.push(leaderList[i]);
+					getDateInfo1(name,leadersArray,time,url,dateUrl);
 				};
 				
 			},
@@ -331,33 +309,41 @@ function showTable1(name,time,url) {
 				alert("失败");
 			}
 		});	
-		$.ajax({
-			type : "get",
-			url : url,
-			async : true,
-			data:{currentDate:time},
-			dataType : "json",
-			success : function(data) {
-				
-				listArray = data;
-				time_start = listArray.startDate[0];
-				time_end = listArray.startDate[1]
-				$("#gettime").html(time_start+" ~ "+time_end);
-				weeksArray = listArray.listWeek;
-				period = listArray.period
-				generateTableFrame(leadersArray,weeksArray,period);
-			},
-			error : function(data) {
-				alert("失败");
-			}
-		});
 	}
 	//console.log(weeksArray);
 	//generateTableFrame(leadersArray,weeksArray,period);
 }
-function showTable(name,time) {
+
+function getDateInfo1(leader_name,leadersArray,time,url,dateUrl){
 	var weeksArray = new Array();
 	var period = new Array();
+	$.ajax({
+		type : "get",
+		url : url,
+		async : true,
+		data:{currentDate:time},
+		dataType : "json",
+		success : function(data) {
+			console.log(data);
+			listArray = data;
+			time_start = listArray.startDate[0];
+			time_end = listArray.startDate[1]
+			$("#gettime").html(time_start+" ~ "+time_end);
+			weeksArray = listArray.listWeek;
+			//console.log(listArray.listWeek);
+			period = listArray.period;
+			generateTableFrame(leadersArray,weeksArray,period);
+			showAgenda1(leader_name,time,dateUrl);
+		},
+		error : function(data) {
+			alert("失败");
+		}
+	});
+}
+
+//制作表格
+function getLeaderInfo(name,time){
+	disableAllLinkandBtn();
 	var leadersArray = new Array();
 	if(name==null && time == null){
 		$.ajax({
@@ -370,28 +356,9 @@ function showTable(name,time) {
 				leaderList = data;
 				for(var i=0;i<leaderList.length;i++){
 					leadersArray.push(leaderList[i]);
+					getDateInfo(name,leadersArray);
 				};
 				
-			},
-			error : function(data) {
-				alert("失败");
-			}
-		});
-		$.ajax({
-			type : "get",
-			url : "dateall",
-			async : true,
-			dataType : "json",
-			success : function(data) {
-				
-				listArray = data;
-				time_start = listArray.startDate[0];
-				time_end = listArray.startDate[1]
-				$("#gettime").html(time_start+" ~ "+time_end);
-				weeksArray = listArray.listWeek;
-				//console.log(listArray.listWeek);
-				period = listArray.period
-				generateTableFrame(leadersArray,weeksArray,period)
 			},
 			error : function(data) {
 				alert("失败");
@@ -409,6 +376,7 @@ function showTable(name,time) {
 				leaderList = data;
 				for(var i=0;i<leaderList.length;i++){
 					leadersArray.push(leaderList[i]);
+					getDateInfo(name,leadersArray);
 				};
 				
 			},
@@ -416,30 +384,37 @@ function showTable(name,time) {
 				alert("失败");
 			}
 		});	
-		$.ajax({
-			type : "get",
-			url : "dateall",
-			async : true,
-			data:{name:name},
-			dataType : "json",
-			success : function(data) {
-				
-				listArray = data;
-				time_start = listArray.startDate[0];
-				time_end = listArray.startDate[1]
-				$("#gettime").html(time_start+" ~ "+time_end);
-				weeksArray = listArray.listWeek;
-				period = listArray.period
-				generateTableFrame(leadersArray,weeksArray,period);
-			},
-			error : function(data) {
-				alert("失败");
-			}
-		});
+		
 	}
-	//console.log(weeksArray);
-	//generateTableFrame(leadersArray,weeksArray,period);
 }
+
+//获取时间信息构建表格
+function getDateInfo(name,leadersArray){
+	var weeksArray = new Array();
+	var period = new Array();
+	$.ajax({
+		type : "get",
+		url : "dateall",
+		async : true,
+		dataType : "json",
+		success : function(data) {
+			
+			listArray = data;
+			time_start = listArray.startDate[0];
+			time_end = listArray.startDate[1]
+			$("#gettime").html(time_start+" ~ "+time_end);
+			weeksArray = listArray.listWeek;
+			//console.log(listArray.listWeek);
+			period = listArray.period;
+			generateTableFrame(leadersArray,weeksArray,period);
+			showAgenda(name,null);
+		},
+		error : function(data) {
+			alert("失败");
+		}
+	});
+}
+
 
 function generateTableFrame(leadersArray,weeksArray,period){
 
@@ -467,6 +442,20 @@ function generateTableFrame(leadersArray,weeksArray,period){
 		//console.log(tr_html);
 	    $("#tb_test").html(tr_html);
 }
+
+//禁用所有查询按钮和连接
+function disableAllLinkandBtn(){
+	$('button').attr('disabled',true); // Disables visually
+	$('a').attr('disabled', true); // Disables visually
+}
+
+//禁用所有查询按钮和连接
+function enableAllLinkandBtn(){
+	$('button').attr("disabled",false); // Disables visually + functionally
+	$('a').attr('disabled', false); // Disables visually
+}
+
+
 function hideAgenda() {
 	$("#agendaShowModel").modal("hide");
 }
@@ -476,8 +465,9 @@ function clicleader(name) {
 	leader_name = name;
 	if (leader_name=="所有领导") {
 		leader_name="";
-		showTable();
-		showAgenda();
+		getLeaderInfo();
+	}else {
+		getLeaderInfo(leader_name,null);
 	}
 	$('#afterweek').removeClass('btn-primary');
 	$('#afterweek').addClass('btn-default');
@@ -487,10 +477,6 @@ function clicleader(name) {
 	
 	$('#nextweek').removeClass('btn-primary');
 	$('#nextweek').addClass('btn-default');
-	showTable(leader_name,null);
-	showAgenda(leader_name,null);
-	
-	
 }
 //点击左边树形菜单
 
