@@ -78,13 +78,13 @@ public class ScheduleDao {
     //select with date
     public List<Schedule> getScheduleByDate(String startDate, String endDate) {
 
-        return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName and time >= ? and  time <= ? order by time, periodId, level", rowMapper,  new Object[] {startDate, endDate});
+        return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName where time >= ? and  time <= ? order by time, periodId, level", rowMapper,  new Object[] {startDate, endDate});
     }
 
     //select with content
     public List<Schedule> getScheduleByContent(String content, String startDate, String endDate) {
 
-        return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName and time >= ? and  time <= ? order by time, periodId, level", rowMapper, new Object[] { content, startDate, endDate});
+        return jdbcTemplate.query("select * from Schedule s right join level l where s.name=l.leaderName and time >= ? and  time <= ? order by time, periodId, level", rowMapper, new Object[] { content, startDate, endDate});
     }
     
     //select with content and date
