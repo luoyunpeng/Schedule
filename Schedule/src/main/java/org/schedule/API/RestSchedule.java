@@ -31,7 +31,6 @@ public class RestSchedule {
     
     @RequestMapping(value = "/leader", method = RequestMethod.GET)
     public List<Level> getLeaderName(@RequestParam(value = "name", required = false) String name) {
-        System.out.println(name);
     	if(name == null || name.equals("")){
     		return scheduleService.getAllLeaderName();
         }
