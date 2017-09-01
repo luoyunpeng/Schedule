@@ -32,7 +32,7 @@ public class RestSchedule {
     @RequestMapping(value = "/leader", method = RequestMethod.GET)
     public List<Level> getLeaderName(@RequestParam(value = "name", required = false) String name) {
         System.out.println(name);
-    	if(name == null|| name.equals("")){
+    	if(name == null || name.equals("")){
     		return scheduleService.getAllLeaderName();
         }
     	
@@ -52,10 +52,10 @@ public class RestSchedule {
     @RequestMapping(value = "/dateall", method = RequestMethod.GET)
     public Week getAllWeekDate(@RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
     	Date current = null;
-    	if (currentDate ==null||currentDate.equals("")) {
-    	    current =  new Date();//WeekUtil.parse(currentDate);
+    	if (currentDate ==null || currentDate.equals("")) {
+    	    current =  new Date();
        	}else{
-       		 current =  WeekUtil.parse(currentDate);
+            current =  WeekUtil.parse(currentDate);
        	}
         int dayNumber = WeekUtil.getWeekNumber(current);
         String[] array = {WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber)};
@@ -63,8 +63,14 @@ public class RestSchedule {
     }
     
     @RequestMapping(value = "/dateall/last", method = RequestMethod.GET)
-    public Week getLastWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
-        Date current = WeekUtil.parse(currentDate);
+    public Week getLastWeekDate(@RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
+        Date current = null;
+        if (currentDate == null || currentDate.equals("")) {
+            current =  new Date();
+        } else {
+            current =  WeekUtil.parse(currentDate);
+        }
+		
         int dayNumber = WeekUtil.getWeekNumber(current);
         Date lastCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfLastWeek(current, dayNumber));
         dayNumber = WeekUtil.getWeekNumber(lastCurrent);
@@ -73,9 +79,14 @@ public class RestSchedule {
     }
     
     @RequestMapping(value = "/dateall/next", method = RequestMethod.GET)
-    public Week getNextWeekDate(@RequestParam(value = "currentDate", required = true) String currentDate) throws ParseException {
-       
-        Date current = WeekUtil.parse(currentDate);
+    public Week getNextWeekDate(@RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
+       Date current = null;
+        if (currentDate == null || currentDate.equals("")) {
+            current =  new Date();
+        } else {
+            current =  WeekUtil.parse(currentDate);
+        }
+		
         int dayNumber = WeekUtil.getWeekNumber(current);
         Date nextCurrent  = WeekUtil.parse(WeekUtil.getFirstDayOfNextWeek(current, dayNumber));
         dayNumber = WeekUtil.getWeekNumber(nextCurrent);
@@ -84,14 +95,14 @@ public class RestSchedule {
     }
 	
     @RequestMapping(value = "/schedule/name/date", method = RequestMethod.GET)
-    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {
-    	Date current = null;
-    	if (currentDate ==null||currentDate.equals("")) {
-    	    current =  new Date();//WeekUtil.parse(currentDate);
-    	    currentDate = WeekUtil.format(current);
-       	}
+    public List<Schedule> getScheduleByNameAndDate(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "currentDate", required = false) String currentDate) throws ParseException {		
+		Date current = null;
+        if (currentDate ==null || currentDate.equals("")) {
+            current =  new Date();
+            currentDate = WeekUtil.format(current);
+        }
     	
-    	if( name == null|| name.equals("")) {
+    	if( name == null || name.equals("")) {
             return scheduleService.getScheduleByDate(currentDate);
         }
         
