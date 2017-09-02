@@ -14,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +26,7 @@ import org.schedule.service.ScheduleService;
 import org.schedule.util.ExcelReadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +55,13 @@ public class MVCControler {
     @RequestMapping("/upload")
     public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws IOException {
         InputStream inputStream = file.getInputStream();
-        File file2 = new File(this.getClass().getResource("/").getPath()+"static/rctemp.xls");
+        String timeStamp= new Date().getTime()+"_";
+        File file2 = new File("C:/Schedule/temp/rctemp.xls"+timeStamp);
+        if(!file2.getParentFile().exists()){
+        	if(!file2.getParentFile().mkdirs()){
+        		System.out.println("create dir failure");
+        	}
+        }
         if(!file2.exists()){
            file2.createNewFile();
         }
@@ -69,7 +77,7 @@ public class MVCControler {
         // File(request.getServletContext().getRealPath("/WEB-INF/res/rctemp.xls")));
         Workbook wb = null;
         try {
-           wb = WorkbookFactory.create(new File(this.getClass().getResource("/").getPath()+"static/rctemp.xls"));
+           wb = WorkbookFactory.create(new File("C:/Schedule/temp/rctemp.xls"+timeStamp));
         } catch (EncryptedDocumentException e) {
            // TODO Auto-generated catch block
            e.printStackTrace();
@@ -101,7 +109,7 @@ public class MVCControler {
         
         response.setContentType("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().print("<script>alert('上传成功');window.location.href='index'</script>");
+        response.getWriter().print("<script>alert('上传成功');window.location.href='index';</script>");
         
         return "index";
     }
@@ -112,8 +120,13 @@ public class MVCControler {
         ServletOutputStream out = null;
         java.io.InputStream fin = null;
         String fileName = "rc";
-        String realPath = this.getClass().getResource("/").getPath()+"static/rc.xls";
+        String realPath = "C:/Schedule/temp/rc.xls";
         File file = new File(realPath);
+        if(!file.getParentFile().exists()){
+        	if(!file.getParentFile().mkdirs()){
+        		System.out.println("create dir failure");
+        	}
+        }
         System.out.println(file.exists());
         try {
             fin = new FileInputStream(file);
