@@ -39,9 +39,9 @@ public class MVCControler {
        return "index";
     }
 	
-    @RequestMapping("/test")
-    public String test(){
-       return "test";
+    @RequestMapping("/indexForLeader")
+    public String indexForLeader(){
+       return "indexLeader";
     }
 	
     @Autowired
@@ -49,7 +49,7 @@ public class MVCControler {
     
     @RequestMapping("/")
     public String projectIndex(){
-    	return "index";
+    	return "indexLeader";
     }
 
     @RequestMapping("/upload")

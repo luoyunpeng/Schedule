@@ -60,12 +60,13 @@ function showMen(){
 		dataType : "json",
 		success : function(data) {
 			
+			
 			leaderList = data;
-			var ul ="<ul class='list-group'>"
+			var ul ="<ul class='list-group'><li class='list-group-item text-center'><a href='#' onclick='clicleader(\"所有领导\")'>所有领导</a></li>";
 			for(var i=0;i<leaderList.length;i++){
 				ul +="<li class='list-group-item text-center'><a href='#' onclick='clicleader(\""+leaderList[i].leaderName+"\")'>"+leaderList[i].leaderName+"</a></li>"
 			};
-				ul+="<li class='list-group-item text-center'><a href='#' onclick='clicleader(\"所有领导\")'>所有领导</a></li></ul>";
+				ul+="</ul>";
 				$("#showMen").html(ul);
 		},
 		error : function(data) {
