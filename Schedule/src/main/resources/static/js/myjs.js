@@ -69,7 +69,7 @@ function showMen(){
 				$("#showMen").html(ul);
 		},
 		error : function(data) {
-			alert("失败");
+			
 		}
 	}); 
 }
@@ -176,7 +176,7 @@ function showAgenda1(leader_name,time,dateUrl) {
 			}
 		});
 	}
-	
+	$("li,th,td").addClass("text-center");
 }
 
 function showAgenda(name,time) {
@@ -215,7 +215,7 @@ function showAgenda(name,time) {
 				enableAllLinkandBtn();
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});
 	}else{
@@ -259,11 +259,11 @@ function showAgenda(name,time) {
 				enableAllLinkandBtn();
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});
 	}
-	
+	$("li,th,td").addClass("text-center");
 }
 
 //制作表格
@@ -286,7 +286,7 @@ function getLeaderInfo1(name,time,url,dateUrl){
 				console.log(11)
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});
 		
@@ -306,7 +306,7 @@ function getLeaderInfo1(name,time,url,dateUrl){
 				
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});	
 	}
@@ -336,7 +336,7 @@ function getDateInfo1(leader_name,leadersArray,time,url,dateUrl){
 			showAgenda1(leader_name,time,dateUrl);
 		},
 		error : function(data) {
-			alert("失败");
+			
 		}
 	});
 }
@@ -361,7 +361,7 @@ function getLeaderInfo(name,time){
 				
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});
 	}else{
@@ -381,7 +381,7 @@ function getLeaderInfo(name,time){
 				
 			},
 			error : function(data) {
-				alert("失败");
+				
 			}
 		});	
 		
@@ -410,7 +410,7 @@ function getDateInfo(name,leadersArray){
 			showAgenda(name,null);
 		},
 		error : function(data) {
-			alert("失败");
+			
 		}
 	});
 }
@@ -420,13 +420,13 @@ function generateTableFrame(leadersArray,weeksArray,period){
 
 	    var tr_html = "";
 	    for (var a = 0; a < weeksArray.length; a++) {
-	        tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"text-align:center;\">" + weeksArray[a] + "</th>";
+	        tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
 	        for (var b = 0; b < leadersArray.length; b++) {
 	            if (b == 0) {
 	                //alert(leadersArray.length + " " + weeksArray.length + " " + period.length);
-	                tr_html += "<th rowspan=\""+period.length+"\">" + leadersArray[b].leaderName + "</th>";
+	                tr_html += "<th rowspan=\""+period.length+"\" style='vertical-align: middle'>" + leadersArray[b].leaderName + "</th>";
 	            } else {
-	                tr_html += "<tr><th rowspan=\"" + period.length + "\">" + leadersArray[b].leaderName + "</th>";
+	                tr_html += "<tr><th rowspan=\"" + period.length + "\" style='vertical-align: middle'>" + leadersArray[b].leaderName + "</th>";
 	            }
 	            for (var c = 0; c < period.length; c++) {
 	                if (c >= 2) tr_html += "<tr>";
