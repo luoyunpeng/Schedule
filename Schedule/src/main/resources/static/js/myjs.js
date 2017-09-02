@@ -430,7 +430,7 @@ function generateTableFrame(leadersArray,weeksArray,period){
 	            }
 	            for (var c = 0; c < period.length; c++) {
 	                if (c >= 2) tr_html += "<tr>";
-	                tr_html += "<td>" + period[c] + "</td>";
+	                tr_html += "<td style='vertical-align: middle'>" + period[c] + "</td>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_1\"></td>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_2\"></td>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_3\"></td>";
@@ -480,6 +480,7 @@ function clicleader(name) {
 }
 //点击左边树形菜单
 
+
 //导入文件
 function inputFile() {
 	var file = $("#filename").val();
@@ -492,8 +493,28 @@ function inputFile() {
 		} else {
 			var ext = file.substring(index + 1, file.length);
 			if(ext == "xls" || ext == "xlsx") {
+				var spinnerOpts={
+						lines: 13, // 共有几条线组成
+					    length: 7, // 每条线的长度
+					    width: 4, // 每条线的粗细
+					    radius: 10, // 内圈的大小
+					    corners: 1, // 圆角的程度
+					    rotate: 0, // 整体的角度（因为是个环形的，所以角度变不变其实都差不多）
+					    color: '#000', // 颜色 #rgb 或 #rrggbb
+					    speed: 1, // 速度：每秒的圈数
+					    trail: 60, // 高亮尾巴的长度
+					    shadow: false, // 是否要阴影
+					    hwaccel: false, // 是否用硬件加速
+					    className: 'spinner', // class的名字
+					    zIndex: 7, // z-index的值 2e9（默认为2000000000）
+					    top: 'auto', // 样式中的top的值（以像素为单位，写法同css）
+					    left: 'auto' // 样式中的left的值（以像素为单位，写法同css）	
+					};
+				var target=document.getElementById('foo');
+				var spinner = new Spinner(spinnerOpts);
+				spinner.spin(target);
 				$("#form-1").submit();
-				$("#filename").text("")
+				$("#filename").text("");
 
 			} else {
 				alert("请上传Excel文件");

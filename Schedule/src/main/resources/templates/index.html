@@ -14,6 +14,7 @@
 <script type="text/javascript" src="js/jquery/jquery-3.2.0.min.js"></script>
 <script src="js/zui1.7.0/js/zui.min.js"></script>
 <script src="js/zui1.7.0/lib/calendar/zui.calendar.min.js"></script>
+<script src="js/loading.js"></script>
 <script src="js/myjs.js"></script>
 <script src="js/jquery.table2excel.js"></script>
 <script src="js/GetCNDate.js"></script>
@@ -21,7 +22,7 @@
 </head>
 
 <body>
-	<div class="">
+	<div class="" id="parent">
 		<!--最顶部-->
 		<div class="top-my ">
 			<form class="navbar-form ">
@@ -85,8 +86,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary"
-								onclick="inputFile()">上传</button>
+							<button type="button" class="btn btn-primary" id="foo" onclick="inputFile()">上传</button>
 						</div>
 					
 					
@@ -163,5 +163,4 @@
 		</div>
 	</div>
 </body>
-
 </html>
