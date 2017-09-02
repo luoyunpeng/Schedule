@@ -41,13 +41,7 @@
 			<div class="topdiv text-center content "
 				style="position: relative; top: 8px;" id="nowtime"></div>
 
-			<button class="topdiv btn btn-primary" id="download"
-				onclick="window.location.href='download'">日程模板下载</button>
-
-			<button class=" topdiv btn btn-default " data-toggle="modal"
-				data-target="#inputModal">日程导入</button>
-
-            <button type="button" class="btn btn-warning" onclick="showAgendaDownloadModal()">
+            <button type="button" class=" btn btn-warning"  style="margin: 5px 12px" onclick="showAgendaDownloadModal()">
                 <i class="icon icon-download-alt"></i>
                 日程下载
             </button>
@@ -71,27 +65,7 @@
                 </div>
             </div>
 
-			<div class="modal fade" id="inputModal">
-				<div class="modal-dialog">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
-						</button>
-						<h4 class="modal-title">选择要上传的文件</h4>
-					</div>
-						<div class="modal-body">
-							<form id="form-1" action="upload" method="POST" enctype="multipart/form-data">
-								<input type="file" id="filename" name="file"/>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary" id="foo" onclick="inputFile()">上传</button>
-						</div>
-					
-					
-				</div>
-			</div>
+			
 
 		</div>
 
