@@ -69,6 +69,7 @@ public class ScheduleDao {
     	return jdbcTemplate.query("select * from Schedule s right join level l on s.name=l.leaderName  where time >= ? and  time <= ? and s.name =? order by time, periodId", rowMapper,  new Object[] { startDate, endDate, name});
     }
     
+    
     //select with name, date and timesolt
     public List<Schedule> getScheduleByNameAndDateWithTimeSolt(String name, String timeSolt, String startDate, String endDate) {
 
@@ -109,5 +110,12 @@ public class ScheduleDao {
     public List<Schedule> getScheduleByTimeSoltAndDate(String timeSolt, Date startDate, Date endDate) {
 
         return jdbcTemplate.query("select * from Schedule where timeSolt  = ? and time >= ? and  time <= ?", rowMapper, new Object[] { timeSolt, startDate, endDate});
+    }
+    
+    //delete with name and date
+    public int deleteScheduleByNameAndDate(String name,String startDate,String endDate){
+    	//select * from Schedule s right join level l on s.name=l.leaderName  where time >= ? and  time <= ? and s.name =? order by time, periodId
+    	String sql="DELETE s FROM Schedule s RIGHT JOIN level l ON s.name=l.leaderName WHERE s.time >= ? AND s.time <= ? AND s.name =?";
+    	return jdbcTemplate.update(sql, startDate,endDate,name);
     }
 }

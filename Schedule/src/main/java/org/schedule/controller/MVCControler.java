@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.schedule.entity.Schedule;
 import org.schedule.service.ScheduleService;
 import org.schedule.util.ExcelReadUtil;
+import org.schedule.util.WeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
@@ -53,7 +56,7 @@ public class MVCControler {
     }
 
     @RequestMapping("/upload")
-    public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         String timeStamp= new Date().getTime()+"_";
         File file2 = new File("C:/Schedule/temp/rctemp.xls"+timeStamp);
@@ -92,9 +95,17 @@ public class MVCControler {
         for (int i = 2; i <= totalRow; i++) {
            Row row = sheet.getRow(i);
            String leader = excelReadUtil.getMergeOr(sheet, i, row.getCell(0), row);
+           System.out.println(leader);
            String content = excelReadUtil.getMergeOr(sheet, i, row.getCell(1), row);
            String address = excelReadUtil.getMergeOr(sheet, i, row.getCell(2), row);
            Date date = excelReadUtil.getMergeOrDate(sheet, i, row.getCell(3), row);
+           Date startWeek=WeekUtil.parse(WeekUtil.getFirstDayOfCurrentWeek(date, WeekUtil.getWeekNumber(date)));
+           Date endWeek=WeekUtil.parse(WeekUtil.getLastDayOfCurrentWeek(date, WeekUtil.getWeekNumber(date)));
+           List<Schedule> scheduleByNameAndDate = schService.getScheduleByNameAndDate(leader, WeekUtil.format(date));
+           if(scheduleByNameAndDate!=null&&scheduleByNameAndDate.size()>0){
+        	   //删除leader的date所处一周的数据
+        	   schService.deleteScheduleByNameAndDate(leader, WeekUtil.format(date));
+           }
            String time = excelReadUtil.getMergeOr(sheet, i, row.getCell(4), row);
            String people = excelReadUtil.getMergeOr(sheet, i, row.getCell(5), row);
            String remarks = excelReadUtil.getMergeOr(sheet, i, row.getCell(6), row);
@@ -103,7 +114,8 @@ public class MVCControler {
                schedules.add(schedule);
            }
         }
-        schService.loadSchedule(schedules);
+        int flag=schService.loadSchedule(schedules);
+        System.out.println(flag);
         wb.close();
         file2.delete();
         

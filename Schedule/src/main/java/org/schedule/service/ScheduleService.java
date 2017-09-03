@@ -84,4 +84,12 @@ public class ScheduleService {
 
         return scheduleDao.getScheduleByTimeSoltAndDate(timeSolt, startDate, endDate);
     }
+    
+    public int deleteScheduleByNameAndDate(String name,String currentDate) throws ParseException{
+    	Date current = WeekUtil.parse(currentDate);
+        int dayNumber = WeekUtil.getWeekNumber(current);
+        
+        return scheduleDao.deleteScheduleByNameAndDate(name, WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber));
+    }
+    
 }
