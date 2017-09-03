@@ -32,7 +32,7 @@ public class Schedule {
              if(timeSolt.equals("上午")) {
                  this.setPeriodId(1);
              }else if(timeSolt.equals("下午")) {
-                 this.setPeriodId(3);
+                 this.setPeriodId(2);
              } 
              
              this.relatedPeopleAndDep = relatedPeopleAndDep;
@@ -109,7 +109,7 @@ public class Schedule {
     public void setPeriodId(int periodId) {
         if(periodId == 1) {
             this.setTimeSolt("上午");
-        }else if (periodId == 3) {
+        }else if (periodId == 2) {
             this.setTimeSolt("下午");
         }
         
