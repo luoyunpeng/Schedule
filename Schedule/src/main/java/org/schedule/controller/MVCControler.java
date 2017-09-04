@@ -98,12 +98,18 @@ public class MVCControler {
 			}
 			Sheet sheet = wb.getSheetAt(0);
 			int totalRow = sheet.getLastRowNum();
+			if(totalRow<2){
+				wb.close();
+				file2.delete();
+				response.getWriter().print("<script>alert('无数据/文件格式异常');window.location.href='index';</script>");
+				return "index";
+			}
 			ExcelReadUtil excelReadUtil=new ExcelReadUtil();
 			List<Schedule> schedules=new ArrayList<>();
 			for (int i = 2; i <= totalRow; i++) {
 			   Row row = sheet.getRow(i);
 			   if(row==null){
-				   row=sheet.createRow(i);
+				   continue;
 			   }
 			   Cell leaderCell=row.getCell(0);
 			   if(leaderCell==null){
@@ -163,13 +169,15 @@ public class MVCControler {
 			       schedules.add(schedule);
 			   }
 			}
+			if(schedules.size()==0){
+				wb.close();
+				file2.delete();
+				response.getWriter().print("<script>alert('无数据/文件格式异常');window.location.href='index';</script>");
+				return "index";
+			}
 			int flag=schService.loadSchedule(schedules);
 			System.out.println(flag);
-			wb.close();
-			file2.delete();
-			
-			
-			response.getWriter().print("<script>alert('上传成功');window.location.href='index';</script>");
+			response.getWriter().print("<script>alert('上传成功,成功录入:"+flag+"');window.location.href='index';</script>");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -179,8 +187,7 @@ public class MVCControler {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-        
+		} 
         return "index";
     }
 
