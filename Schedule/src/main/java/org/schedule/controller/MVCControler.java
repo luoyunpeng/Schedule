@@ -102,6 +102,9 @@ public class MVCControler {
 			List<Schedule> schedules=new ArrayList<>();
 			for (int i = 2; i <= totalRow; i++) {
 			   Row row = sheet.getRow(i);
+			   if(row==null){
+				   row=sheet.createRow(i);
+			   }
 			   Cell leaderCell=row.getCell(0);
 			   if(leaderCell==null){
 				   continue;
