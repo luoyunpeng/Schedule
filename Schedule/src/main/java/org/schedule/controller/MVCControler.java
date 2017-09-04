@@ -229,7 +229,7 @@ public class MVCControler {
             e.printStackTrace();
         }
 
-        return "index";
+        return null;
    }
     
     
