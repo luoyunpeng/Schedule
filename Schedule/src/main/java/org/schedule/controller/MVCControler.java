@@ -25,6 +25,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.junit.Test;
 import org.schedule.entity.Schedule;
 import org.schedule.service.ScheduleService;
 import org.schedule.util.ExcelReadUtil;
@@ -41,6 +42,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MVCControler {
+	
+	@RequestMapping("/test")
+	public String test(){
+		return "test";
+	}
 
     @RequestMapping("/index")
     public String index() {
@@ -172,7 +178,7 @@ public class MVCControler {
 			if(schedules.size()==0){
 				wb.close();
 				file2.delete();
-				response.getWriter().print("<script>alert('无数据/文件格式异常');window.location.href='index';</script>");
+				response.getWriter().print("<script>alert('上传成功,成功录入:0');window.location.href='index';</script>");
 				return "index";
 			}
 			int flag=schService.loadSchedule(schedules);
@@ -227,13 +233,13 @@ public class MVCControler {
             e.printStackTrace();
         }
 
-        return null;
+        return "index";
    }
     
     
-    @ExceptionHandler({Exception.class})
-    public String processException(Exception exception){
-    	
-    	return "error";
-    }
+//    @ExceptionHandler({Exception.class})
+//    public String processException(Exception exception){
+//    	
+//    	return "error";
+//    }
 }
