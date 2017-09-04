@@ -38,19 +38,21 @@
                         </div>
                     </div>
 				</form>
-			<div class="topdiv text-center content "
-				style="position: relative; top: 8px;" id="nowtime"></div>
+			<form class="navbar-form ">
+				<div class="topdiv text-center content "
+					style="position: relative; top: 8px;" id="nowtime"></div>
 
-			<button class="topdiv btn btn-primary" id="download"
-				onclick="window.location.href='download'">日程模板下载</button>
+				<button class="topdiv btn btn-primary" id="download"
+					onclick="window.location.href='download'">日程模板下载</button>
 
-			<button class=" topdiv btn btn-default " data-toggle="modal"
-				data-target="#inputModal">日程导入</button>
+				<button type="button" class=" topdiv btn btn-default " data-toggle="modal"
+					data-target="#inputModal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日程导入&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
 
-            <button type="button" class="btn btn-warning" onclick="showAgendaDownloadModal()">
-                <i class="icon icon-download-alt"></i>
-                日程下载
-            </button>
+				<button type="button" class=" btn btn-warning" style="margin:0px 28px;"
+					onclick="showAgendaDownloadModal()">
+					<i class="icon icon-download-alt"></i> &nbsp;&nbsp;日程下载&nbsp;&nbsp;
+				</button>
+			</form>
 
             <!-- Modal -->
             <div class="modal fade" id="agendaDownlaodModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
