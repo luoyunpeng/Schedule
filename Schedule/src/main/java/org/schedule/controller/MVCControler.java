@@ -43,10 +43,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MVCControler {
 	
-	@RequestMapping("/test")
-	public String test(){
-		return "test";
-	}
 
     @RequestMapping("/index")
     public String index() {
@@ -237,9 +233,9 @@ public class MVCControler {
    }
     
     
-//    @ExceptionHandler({Exception.class})
-//    public String processException(Exception exception){
-//    	
-//    	return "error";
-//    }
+    @ExceptionHandler({Exception.class})
+    public String processException(Exception exception){
+    	
+    	return "error";
+    }
 }
