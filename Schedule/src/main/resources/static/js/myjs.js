@@ -559,3 +559,10 @@ function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中
     });
     $("#agendaDownlaodModal").modal('hide');
 }
+
+//禁止所有ajax缓存
+$(function(){
+    $.ajaxSetup ({
+        cache: false //false为关闭，ture为打开
+    });
+});
