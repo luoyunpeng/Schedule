@@ -186,8 +186,8 @@ public class MVCControler {
 
         ServletOutputStream out = null;
         java.io.InputStream fin = null;
-        String fileName = "rc";
-        String realPath = "C:/Schedule/temp/rc.xls";
+        String fileName = "日程模板";
+        String realPath = "C:/Schedule/temp/日程模板.xls";
         File file = new File(realPath);
         if(!file.getParentFile().exists()){
         	if(!file.getParentFile().mkdirs()){
