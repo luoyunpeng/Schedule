@@ -99,7 +99,7 @@ public class MVCControler {
 			// File(request.getServletContext().getRealPath("/WEB-INF/res/rctemp.xls")));
 			Workbook wb = null;
 			
-			wb = WorkbookFactory.create(new File("C:/Schedule/temp/rctemp.xls"+timeStamp+"1"));
+			wb = WorkbookFactory.create(new File("C:/Schedule/temp/rctemp.xls"+timeStamp));
 			
 			Sheet sheet = wb.getSheetAt(0);
 			int totalRow = sheet.getLastRowNum();
