@@ -177,7 +177,7 @@ function showAgenda1(leader_name,time,dateUrl) {
 			}
 		});
 	}
-	$("li,th,td").addClass("text-center");
+	$("li,th").addClass("text-center");
 }
 
 function showAgenda(name,time) {
@@ -264,7 +264,7 @@ function showAgenda(name,time) {
 			}
 		});
 	}
-	$("li,th,td").addClass("text-center");
+	$("li,th").addClass("text-center");
 }
 
 //制作表格
@@ -434,7 +434,7 @@ function generateTableFrame(leadersArray,weeksArray,period){
 	            }
 	            for (var c = 0; c < period.length; c++) {
 	                if (c >= 2) tr_html += "<tr>";
-	                tr_html += "<td style='vertical-align: middle'>" + period[c] + "</td>";
+	                tr_html += "<th style='vertical-align: middle'>" + period[c] + "</th>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_1\" style='vertical-align: middle'></td>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_2\" style='vertical-align: middle'></td>";
 	                tr_html += "<td id=\"td_" + (a + 1) + "_" + leadersArray[b].level + "_" + (c + 1) + "_3\" style='vertical-align: middle'></td>";
