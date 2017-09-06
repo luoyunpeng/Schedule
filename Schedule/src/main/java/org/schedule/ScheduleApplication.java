@@ -16,7 +16,7 @@ public class ScheduleApplication {
     // @Bean
     public DataSource dataSource() {
         PoolProperties poolProperties = new PoolProperties();
-        poolProperties.setUrl("jdbc:mysql://192.168.1.76:32768/jdbc?characterEncoding=utf8");
+        poolProperties.setUrl("jdbc:mysql://47.94.140.6:3306/testload?characterEncoding=utf8");
         poolProperties.setUsername("root");
         poolProperties.setPassword("123");
         poolProperties.setDriverClassName("com.mysql.jdbc.Driver");
