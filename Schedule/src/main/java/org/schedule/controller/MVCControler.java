@@ -45,7 +45,11 @@ public class MVCControler {
 	
 
     @RequestMapping("/index")
-    public String index() {
+    public String index(HttpServletResponse response) {
+		response.setContentType("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
        return "index";
     }
 	
@@ -67,6 +71,8 @@ public class MVCControler {
         try {
         	response.setContentType("UTF-8");
 			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Pragma", "no-cache");
+			response.setDateHeader("Expires", 0);
 			InputStream inputStream = file.getInputStream();
 			String timeStamp= new Date().getTime()+"_";
 			File file2 = new File("C:/Schedule/temp/rctemp.xls"+timeStamp);
@@ -113,25 +119,8 @@ public class MVCControler {
 			   if(row==null){
 				   continue;
 			   }
-			   Cell leaderCell=row.getCell(0);
-			   if(leaderCell==null){
-				   continue;
-			   }
-			   String leader = excelReadUtil.getMergeOr(sheet, i, leaderCell, row);
-			   Cell contentCell=row.getCell(1);
-			   if(contentCell==null){
-				   contentCell=row.createCell(1);
-				   contentCell.setCellValue("");
-				   
-			   }
-			   String content = excelReadUtil.getMergeOr(sheet, i, contentCell, row);
-			   Cell addressCell=row.getCell(2);
-			   if(addressCell==null){
-				   addressCell=row.createCell(2);
-				   addressCell.setCellValue("");
-			   }
-			   String address = excelReadUtil.getMergeOr(sheet, i, addressCell, row);
-			   Cell dateCell=row.getCell(3);
+			   //1.Date
+			   Cell dateCell=row.getCell(0);
 			   System.out.println(dateCell);
 			   if(dateCell==null){
 				   continue;
@@ -140,23 +129,50 @@ public class MVCControler {
 			   if(date==null){
 				   continue;
 			   }
+			   //2.Leader
+			   Cell leaderCell=row.getCell(1);
+			   if(leaderCell==null){
+				   continue;
+			   }
+			   String leader = excelReadUtil.getMergeOr(sheet, i, leaderCell, row);
+			   
 			   List<Schedule> scheduleByNameAndDate = schService.getScheduleByNameAndDate(leader, WeekUtil.format(date));
 			   if(scheduleByNameAndDate!=null&&scheduleByNameAndDate.size()>0){
 				   //删除leader的date所处一周的数据
 				   schService.deleteScheduleByNameAndDate(leader, WeekUtil.format(date));
 			   }
-			   Cell timeCell=row.getCell(4);
+			   
+			   //3.Time
+			   Cell timeCell=row.getCell(2);
 			   if(timeCell==null){
-				   timeCell=row.createCell(4);
+				   timeCell=row.createCell(2);
 				   timeCell.setCellValue("");
 			   }
 			   String time = excelReadUtil.getMergeOr(sheet, i, timeCell, row);
+			   //4.Content
+			   Cell contentCell=row.getCell(3);
+			   if(contentCell==null){
+				   contentCell=row.createCell(3);
+				   contentCell.setCellValue("");
+				   
+			   }
+			   String content = excelReadUtil.getMergeOr(sheet, i, contentCell, row);
+			   //5.Address
+			   Cell addressCell=row.getCell(4);
+			   if(addressCell==null){
+				   addressCell=row.createCell(4);
+				   addressCell.setCellValue("");
+			   }
+			   String address = excelReadUtil.getMergeOr(sheet, i, addressCell, row);
+			  
+			   //6.join people
 			   Cell peopleCell=row.getCell(5);
 			   if(peopleCell==null){
 				   peopleCell=row.createCell(5);
 				   peopleCell.setCellValue("");
 			   }
 			   String people = excelReadUtil.getMergeOr(sheet, i, peopleCell, row);
+			   //7.remarks
 			   Cell remarksCell=row.getCell(6);
 			   if(remarksCell==null){
 				   remarksCell=row.createCell(6);
@@ -229,7 +245,7 @@ public class MVCControler {
             e.printStackTrace();
         }
 
-        return null;
+        return "index";
    }
     
     
