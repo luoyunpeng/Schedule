@@ -421,8 +421,11 @@ function generateTableFrame(leadersArray,weeksArray,period){
 
 	    var tr_html = "";
 	    for (var a = 0; a < weeksArray.length; a++) {
-	        tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
-	        for (var b = 0; b < leadersArray.length; b++) {
+	    	if(a==0)
+	    		tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
+	    	else
+	    		tr_html += "<tr style=\"border-top:4px solid #C0C0C0;\"><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
+	    	for (var b = 0; b < leadersArray.length; b++) {
 	            if (b == 0) {
 	                //alert(leadersArray.length + " " + weeksArray.length + " " + period.length);
 	                tr_html += "<th rowspan=\""+period.length+"\" style='vertical-align: middle'>" + leadersArray[b].leaderName + "</th>";
