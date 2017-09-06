@@ -1,5 +1,7 @@
 package org.schedule.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +27,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.junit.Test;
 import org.schedule.entity.Schedule;
 import org.schedule.service.ScheduleService;
 import org.schedule.util.ExcelReadUtil;
@@ -67,6 +70,7 @@ public class MVCControler {
 
     @RequestMapping("/upload")
     public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,HttpServletResponse response){
+    	File file2=null;
         try {
         	response.setContentType("UTF-8");
 			response.setCharacterEncoding("UTF-8");
@@ -74,7 +78,7 @@ public class MVCControler {
 			response.setDateHeader("Expires", 0);
 			InputStream inputStream = file.getInputStream();
 			String timeStamp= new Date().getTime()+"_";
-			File file2 = new File("C:/Schedule/temp/rctemp.xls"+timeStamp);
+			file2 = new File("C:/Schedule/temp/rctemp.xls"+timeStamp);
 			if(!file2.getParentFile().exists()){
 				if(!file2.getParentFile().mkdirs()){
 					System.out.println("create dir failure");
@@ -94,15 +98,9 @@ public class MVCControler {
 			// InputStream is=new FileInputStream(new
 			// File(request.getServletContext().getRealPath("/WEB-INF/res/rctemp.xls")));
 			Workbook wb = null;
-			try {
-			   wb = WorkbookFactory.create(new File("C:/Schedule/temp/rctemp.xls"+timeStamp));
-			} catch (EncryptedDocumentException e) {
-			   // TODO Auto-generated catch block
-			   e.printStackTrace();
-			} catch (InvalidFormatException e) {
-			   // TODO Auto-generated catch block
-			   e.printStackTrace();
-			}
+			
+			wb = WorkbookFactory.create(new File("C:/Schedule/temp/rctemp.xls"+timeStamp+"1"));
+			
 			Sheet sheet = wb.getSheetAt(0);
 			int totalRow = sheet.getLastRowNum();
 			if(totalRow<2){
@@ -156,6 +154,7 @@ public class MVCControler {
 				   
 			   }
 			   String content = excelReadUtil.getMergeOr(sheet, i, contentCell, row);
+			   content=content.replace("\n", "<br/>");
 			   //5.Address
 			   Cell addressCell=row.getCell(4);
 			   if(addressCell==null){
@@ -163,7 +162,7 @@ public class MVCControler {
 				   addressCell.setCellValue("");
 			   }
 			   String address = excelReadUtil.getMergeOr(sheet, i, addressCell, row);
-			  
+			   address=address.replace("\n", "<br/>");
 			   //6.join people
 			   Cell peopleCell=row.getCell(5);
 			   if(peopleCell==null){
@@ -171,6 +170,7 @@ public class MVCControler {
 				   peopleCell.setCellValue("");
 			   }
 			   String people = excelReadUtil.getMergeOr(sheet, i, peopleCell, row);
+			   people=people.replace("\n", "<br/>");
 			   //7.remarks
 			   Cell remarksCell=row.getCell(6);
 			   if(remarksCell==null){
@@ -178,6 +178,7 @@ public class MVCControler {
 				   remarksCell.setCellValue("");
 			   }
 			   String remarks = excelReadUtil.getMergeOr(sheet, i, remarksCell, row);
+			   remarks=remarks.replace("\n", "<br/>");
 			   Schedule schedule = new Schedule(leader, content, address, date, time, people, remarks);
 			   if(content==null||content==""||time==null||time==""){
 				   continue;
@@ -196,15 +197,18 @@ public class MVCControler {
 			System.out.println(flag);
 			response.getWriter().print("<script>alert('上传成功,成功录入:"+flag+"');window.location.href='index';</script>");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} finally {
+			file2.delete();
+		}
         return "index";
     }
 
@@ -244,7 +248,7 @@ public class MVCControler {
             e.printStackTrace();
         }
 
-        return "index";
+        return null;
    }
     
     
