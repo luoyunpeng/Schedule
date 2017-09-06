@@ -421,7 +421,7 @@ function generateTableFrame(leadersArray,weeksArray,period){
 
 	    var tr_html = "";
 	    for (var a = 0; a < weeksArray.length; a++) {
-	    	if(a==0)
+	    	if(a==0 ||leadersArray.length==1 )
 	    		tr_html += "<tr><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
 	    	else
 	    		tr_html += "<tr style=\"border-top:4px solid #C0C0C0;\"><th rowspan=\"" + leadersArray.length * period.length + "\" style=\"vertical-align: middle;\">" + weeksArray[a] + "</th>";
