@@ -1,7 +1,5 @@
 package org.schedule.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +16,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -27,20 +23,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.junit.Test;
 import org.schedule.entity.Schedule;
 import org.schedule.service.ScheduleService;
 import org.schedule.util.ExcelReadUtil;
 import org.schedule.util.WeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MVCControler {
@@ -94,6 +86,7 @@ public class MVCControler {
 			   outputStream.write(buffer, 0, bytesToRead);
 			}
 			outputStream.close();
+			inputStream.close();
 			System.out.println(file2.getPath());
 			// InputStream is=new FileInputStream(new
 			// File(request.getServletContext().getRealPath("/WEB-INF/res/rctemp.xls")));
@@ -194,6 +187,7 @@ public class MVCControler {
 				return "index";
 			}
 			int flag=schService.loadSchedule(schedules);
+			wb.close();
 			System.out.println(flag);
 			response.getWriter().print("<script>alert('上传成功,成功录入:"+flag+"');window.location.href='index';</script>");
 		} catch (FileNotFoundException e) {
@@ -209,6 +203,7 @@ public class MVCControler {
 		} finally {
 			file2.delete();
 		}
+        delTempFile();
         return "index";
     }
 
@@ -241,20 +236,32 @@ public class MVCControler {
                  out.write(buffer, 0, bytesToRead);
             }
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-			// TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return null;
+        return "index";
    }
     
     
     @ExceptionHandler({Exception.class})
     public String processException(Exception exception){
-    	
+    	delTempFile();
     	return "error";
+    }
+    
+    public void delTempFile(){
+        String dirPath="C:/Schedule/temp";
+        File file=new File(dirPath);
+        if(!file.exists()){
+            return;
+        }
+        File[] listFiles = file.listFiles();
+        for (File file2 : listFiles) {
+            if(file2.getName().contains("rctemp")){
+                file2.delete();
+            }
+        }
     }
 }
