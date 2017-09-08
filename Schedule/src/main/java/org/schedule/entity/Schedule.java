@@ -33,7 +33,9 @@ public class Schedule {
                  this.setPeriodId(1);
              }else if(timeSolt.equals("下午")) {
                  this.setPeriodId(2);
-             } 
+             }else if(timeSolt.equals("全天")) {
+	         this.setPeriodId(3);
+	     }
              
              this.relatedPeopleAndDep = relatedPeopleAndDep;
              this.comment = comment;
@@ -111,7 +113,9 @@ public class Schedule {
             this.setTimeSolt("上午");
         }else if (periodId == 2) {
             this.setTimeSolt("下午");
-        }
+        }else if(periodId == 3){
+	    this.setTimeSolt("全天");
+	}
         
         this.periodId = periodId;
     }
