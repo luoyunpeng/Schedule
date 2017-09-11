@@ -284,7 +284,6 @@ function getLeaderInfo1(name,time,url,dateUrl){
 					leadersArray.push(leaderList[i]);
 					getDateInfo1(name,leadersArray,time,url,dateUrl);
 				};
-				console.log(11)
 			},
 			error : function(data) {
 				
@@ -325,7 +324,6 @@ function getDateInfo1(leader_name,leadersArray,time,url,dateUrl){
 		data:{currentDate:time},
 		dataType : "json",
 		success : function(data) {
-			console.log(data);
 			listArray = data;
 			time_start = listArray.startDate[0];
 			time_end = listArray.startDate[1]
