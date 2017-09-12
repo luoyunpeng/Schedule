@@ -561,6 +561,26 @@ function outputTableToExcel(tableid) {//整个表格拷贝到EXCEL中
     $("#agendaDownlaodModal").modal('hide');
 }
 
+function downloadAgenda(){
+	$.ajax({
+		type : "get",
+		url : "/schedule/downloadAgenda",
+		async : false,
+		data:{
+			leader:leader_name,
+			currentDate : time_start,
+		},
+		dataType : "json",
+		success : function(data) {
+			$("#agendaInfo").html(data);
+			$("#agendaDownlaodModal").modal('hide');
+		},
+		error : function(data) {
+			
+		}
+	});
+}
+
 //禁止所有ajax缓存
 $(function(){
     $.ajaxSetup ({

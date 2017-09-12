@@ -1,20 +1,30 @@
 package org.schedule.API;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.internal.ExactComparisonCriteria;
 import org.schedule.entity.Level;
 import org.schedule.entity.Schedule;
 import org.schedule.entity.Week;
 import org.schedule.service.ScheduleService;
+import org.schedule.util.ExportDataToExcelUtil;
 import org.schedule.util.WeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import jxl.write.Boolean;
 
 @RestController
 @EnableAutoConfiguration
@@ -176,5 +186,41 @@ public class RestSchedule {
 
         // return scheduleService.getScheduleByTimeSoltAndDate(timeSolt, start, end);
         return null;
+    }
+    
+    @SuppressWarnings({ "finally", "null" })
+	@RequestMapping(value = "/schedule/downloadAgenda", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean downloadAgenda(@RequestParam(value = "leader", required = false) String name, @RequestParam(value = "currentDate", required = true) String currentDate,HttpServletRequest req, HttpServletResponse response) throws ParseException {
+    	boolean isSuccess=false;
+    	try {
+    		String generateFilePath="error";
+        	Date current = WeekUtil.parse(currentDate);
+        	if (currentDate ==null || currentDate.equals("")) {
+        	    current =  new Date();
+           	}else{
+                current =  WeekUtil.parse(currentDate);
+           	}
+            int dayNumber = WeekUtil.getWeekNumber(current);
+            ExportDataToExcelUtil exportDataToExcel=new ExportDataToExcelUtil(name,current,dayNumber);
+            String[] array = {WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber), WeekUtil.getLastDayOfCurrentWeek(current, dayNumber)};
+            Date currentWeekFirstDay  = WeekUtil.parse(WeekUtil.getFirstDayOfCurrentWeek(current, dayNumber));
+            if( name == null || name.equals("")) {
+            	generateFilePath=exportDataToExcel.generateExcelSheetHeader(scheduleService.getAllLeaderName(), new Week(array , WeekUtil.getAllWeekString(current, dayNumber))
+            			,scheduleService.getScheduleByDate(WeekUtil.format(currentWeekFirstDay)));
+            }else {
+            	generateFilePath=exportDataToExcel.generateExcelSheetHeader(scheduleService.getLeaderName(name), new Week(array , WeekUtil.getAllWeekString(current, dayNumber))
+    					,scheduleService.getScheduleByNameAndDate(name, WeekUtil.format(currentWeekFirstDay)));
+    		}
+            if(generateFilePath!=null||generateFilePath.equals("")) {
+            	exportDataToExcel.downloadAgenda(req, response,generateFilePath);
+            }
+            isSuccess=true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			isSuccess=false;
+		}finally {
+			return isSuccess;	
+		}
     }
 }
