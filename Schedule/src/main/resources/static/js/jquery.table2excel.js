@@ -160,7 +160,12 @@
             }
             delete e.ctx.table;
 
-            var isIE = /*@cc_on!@*/false || !!document.documentMode; // this works with IE10 and IE11 both :)            
+            var isIE = /*@cc_on!@*/false || !!document.documentMode; // this works with IE10 and IE11 both :)  
+            var navigatorName = "Microsoft Internet Explorer"; 
+            
+            if( navigator.appName == navigatorName ){ 
+            isIE = true; 
+            }
             //if (typeof msie !== "undefined" && msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // this works ONLY with IE 11!!!
             if (isIE) {
                 if (typeof Blob !== "undefined") {
