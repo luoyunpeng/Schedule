@@ -185,42 +185,6 @@ public class ExportDataToExcelUtil {
 		}
 	}
 	public String downloadAgenda(HttpServletRequest req, HttpServletResponse response,String fileFullPath) {
-
-        ServletOutputStream out = null;
-        java.io.InputStream fin = null;
-        String fileName = tileOfSheet;
-        String realPath = fileFullPath;
-        File file = new File(realPath);
-        if(!file.getParentFile().exists()){
-        	if(!file.getParentFile().mkdirs()){
-        		System.out.println("create dir failure");
-        	}
-        }
-        System.out.println(file.exists());
-        try {
-            fin = new FileInputStream(file);
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("application/force-download");
-            response.addHeader("Content-Disposition",
-                  "attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1") + ".xls");
-
-            out = response.getOutputStream();
-            byte[] buffer = new byte[512];
-            int bytesToRead = -1;
-
-            while ((bytesToRead = fin.read(buffer)) != -1) {
-                 out.write(buffer, 0, bytesToRead);
-            }
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-			// TODO Auto-generated catch block
-            e.printStackTrace();
-        }finally {
-        	file.delete();
-        }
-
-        return null;
+        return tileOfSheet;
    }
 }
