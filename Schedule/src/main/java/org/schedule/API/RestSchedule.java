@@ -1,11 +1,17 @@
 package org.schedule.API;
 
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +36,8 @@ import jxl.write.Boolean;
 @EnableAutoConfiguration
 public class RestSchedule {
 	
+    private String excelPath=null;
+    private String excelName=null;
     @Autowired
     ScheduleService scheduleService;
 	
@@ -188,13 +196,11 @@ public class RestSchedule {
         return null;
     }
     
-    @SuppressWarnings({ "finally", "null" })
-	@RequestMapping(value = "/schedule/downloadAgenda", method = RequestMethod.GET)
     @ResponseBody
-    public boolean downloadAgenda(@RequestParam(value = "leader", required = false) String name, @RequestParam(value = "currentDate", required = true) String currentDate,HttpServletRequest req, HttpServletResponse response) throws ParseException {
-    	boolean isSuccess=false;
-    	try {
-    		String generateFilePath="error";
+	@RequestMapping(value = "/schedule/downloadAgenda", method = RequestMethod.GET)
+    public String downloadAgenda(@RequestParam(value = "leader", required = false) String name, @RequestParam(value = "currentDate", required = true) String currentDate,HttpServletRequest req, HttpServletResponse response) throws ParseException {
+        String generateFilePath="error";
+        try {
         	Date current = WeekUtil.parse(currentDate);
         	if (currentDate ==null || currentDate.equals("")) {
         	    current =  new Date();
@@ -212,15 +218,54 @@ public class RestSchedule {
             	generateFilePath=exportDataToExcel.generateExcelSheetHeader(scheduleService.getLeaderName(name), new Week(array , WeekUtil.getAllWeekString(current, dayNumber))
     					,scheduleService.getScheduleByNameAndDate(name, WeekUtil.format(currentWeekFirstDay)));
     		}
-            if(generateFilePath!=null||generateFilePath.equals("")) {
-            	exportDataToExcel.downloadAgenda(req, response,generateFilePath);
+            if(generateFilePath!=null) {
+            	String title=exportDataToExcel.downloadAgenda(req, response,generateFilePath);
+            	excelName=title;
             }
-            isSuccess=true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			isSuccess=false;
-		}finally {
-			return isSuccess;	
-		}
+            System.out.println(generateFilePath);
+            excelPath=generateFilePath;
+            return "1";
+		} catch (Exception e) {}
+        return "1";
+    }
+    
+    //日程下载回调的方法
+    @RequestMapping("/download2")
+    public String downloadAgenda(HttpServletRequest req, HttpServletResponse response){
+        ServletOutputStream out = null;
+        java.io.InputStream fin = null;
+        String fileName = excelName;
+        String realPath = excelPath;
+        File file = new File(realPath);
+        if(!file.getParentFile().exists()){
+            if(!file.getParentFile().mkdirs()){
+                System.out.println("create dir failure");
+            }
+        }
+        System.out.println(file.exists());
+        try {
+            fin = new FileInputStream(file);
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/force-download");
+            response.addHeader("Content-Disposition",
+                  "attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1") + ".xls");
+
+            out = response.getOutputStream();
+            byte[] buffer = new byte[512];
+            int bytesToRead = -1;
+
+            while ((bytesToRead = fin.read(buffer)) != -1) {
+                 out.write(buffer, 0, bytesToRead);
+            }
+            fin.close();
+            out.close();
+            file.delete();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        file.delete();
+        return null;
     }
 }

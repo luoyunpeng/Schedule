@@ -570,13 +570,12 @@ function downloadAgenda(){
 			leader:leader_name,
 			currentDate : time_start,
 		},
-		dataType : "json",
 		success : function(data) {
-			$("#agendaInfo").html(data);
 			$("#agendaDownlaodModal").modal('hide');
+			window.location.href="download2";
 		},
 		error : function(data) {
-			
+			alert(1);
 		}
 	});
 }
